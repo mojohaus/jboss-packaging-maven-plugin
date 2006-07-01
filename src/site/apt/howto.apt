@@ -1,0 +1,47 @@
+ ------
+ Maven 2 JBoss Packaging Plugin: configuration examples
+ ------
+ Frank Mena 
+ <frankm.os@gmail.com>
+
+ Doug Douglass
+ <douglass.doug>@gamil.com>
+ ------
+ June 24, 2006
+
+Introduction
+
+  The JBoss packaging plugin allows the packaging of various JBoss deployable archives including:
+  
+   * SAR -- Service Archive
+
+   * Spring -- Spring BeanFactory Archive
+
+   * HAR -- ????
+
+  Packagings can be assembled in 3 different modes:
+
+   * [sar|har|spring] (default): generates the artifact
+
+   * [sar|har|spring]-inplace: package the archive in the source tree
+
+   * [sar|har|spring]-exploded : package an exploded archive application
+
+  Each mode is materialized by a goal. For instance, to generate an exploded
+  sar from the current project, one would type
+
++--------
+  mvn jboss-packaging:sar-exploded
++---------
+
+  JBoss packaging may also be integrated into the default maven packaging phase by setting the &lt;packaging&gt; element as follows:
+
+   * jboss-sar -- produce SAR artifact
+
+   * jboss-har -- produce HAR artifact
+
+   * jboss-spring -- produce Spring artifact
+
+Configuration Options
+
+  

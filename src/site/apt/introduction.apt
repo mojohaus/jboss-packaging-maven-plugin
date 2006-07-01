@@ -1,0 +1,20 @@
+ ------
+ Maven 2 JBoss Packaging Plugin
+ ------
+ Frank Mena
+ <frankm.os@gmail.com>
+
+ Doug Douglass
+ <douglass.doug@gmail.com>
+ 
+ ------
+ June 24, 2006
+
+Introduction
+
+  This plugin generates various JBoss deployable archive file include SAR, HAR and Spring.
+
+  The full description of goals is available {{{index.html}here}}.
+
+
+
