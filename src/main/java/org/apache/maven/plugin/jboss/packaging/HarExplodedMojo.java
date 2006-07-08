@@ -16,13 +16,23 @@ package org.apache.maven.plugin.jboss.packaging;
  * limitations under the License.
  */
 
+import org.apache.maven.plugin.MojoExecutionException;
 
-public abstract class AbstractSarPackagingMojo
-    extends AbstractPackagingMojo
+/**
+ * Build a JBoss Spring deployable Archive.
+ * 
+ * @goal har-exploded
+ * @phase package
+ * @requiresDependencyResolution runtime
+ */
+public class HarExplodedMojo 
+  extends AbstractHarPackagingMojo
 {
 
-  public String getDeploymentDescriptorFilename() {	
-	return "jboss-service.xml";
+  public void execute() 
+    throws MojoExecutionException
+  {
+      buildExplodedPackaging();
   }
   
 }

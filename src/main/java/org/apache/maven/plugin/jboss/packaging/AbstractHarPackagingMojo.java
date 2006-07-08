@@ -17,12 +17,15 @@ package org.apache.maven.plugin.jboss.packaging;
  */
 
 
-public abstract class AbstractSarPackagingMojo
-    extends AbstractPackagingMojo
+public abstract class AbstractHarPackagingMojo
+    extends AbstractSarPackagingMojo
 {
-
-  public String getDeploymentDescriptorFilename() {	
-	return "jboss-service.xml";
-  }
-  
+    /**
+     * If the SAR default descriptor file does not exist, then
+     * we expect 'hibernate-service.xml' in its stead.
+     */
+    public String[] getAlternateDeploymentDescriptorFilenames()
+    {
+        return new String[] { "hibernate-service.xml" };
+    }
 }

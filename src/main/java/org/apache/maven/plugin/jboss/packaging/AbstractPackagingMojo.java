@@ -76,14 +76,14 @@ public abstract class AbstractPackagingMojo
     private File packagingDirectory;
 
     /**
-	 * The location of the jboss packaging-type configuration file (e.g.,
+	 * The location of the jboss deployment descriptor file (e.g.,
 	 * jboss-service.xml, jboss-spring.xml, etc). If it is present in the
 	 * META-INF directory in src/main/resources with that name then it will
 	 * automatically be included. Otherwise this parameter must be set.
 	 * 
 	 * @parameter
 	 */
-	protected File packagingFile;
+	protected File deploymentDescriptorFile;
 
     /**
 	 * The directory where to put the libs.
@@ -149,8 +149,33 @@ public abstract class AbstractPackagingMojo
         return packagingDirectory;
     }
     
-    public abstract String getPackagingFilename();
-		
+    /**
+     * Get the name of the deployment descriptor file.
+     * 
+     * Sublcasses must override this method and provide the proper name for
+     * their type of archive packaging
+     * 
+     * @return deployment descriptor file name, sans path
+     */
+    public abstract String getDeploymentDescriptorFilename();
+
+    /**
+     * If no deployment descriptor filesnames are found, check for
+     * the existence of alternates before failing.
+     * 
+     * Subclasses are not required to override this method.
+     * 
+     * @return
+     */
+    public String[] getAlternateDeploymentDescriptorFilenames()
+    {
+        return null;
+    }
+
+    /**
+     * 
+     * @return
+     */
 	public String getOutputDirectory() {
 		return outputDirectory;
 	}
@@ -191,25 +216,46 @@ public abstract class AbstractPackagingMojo
                 FileUtils.copyDirectoryStructure( classesDirectory, packagingDirectory );
             }
             
-            File packagingFileTarget = new File( packagingDirectory, "META-INF" );
-            packagingFileTarget = new File( packagingFileTarget, getPackagingFilename() );
+            File packagingFileTargetParent = new File( packagingDirectory, "META-INF" );
+            File packagingFileTarget = new File( packagingFileTargetParent, getDeploymentDescriptorFilename() );
             if ( ! packagingFileTarget.exists() )
             {
-                if ( ! packagingFileTarget.getParentFile().exists() )
+                if ( !packagingFileTargetParent.exists() )
                 {
-                    packagingFileTarget.getParentFile().mkdirs();
+                	packagingFileTargetParent.mkdirs();
                 }
-                
-                if ( packagingFile == null || ! packagingFile.exists() )
+
+                if ( deploymentDescriptorFile == null || ! deploymentDescriptorFile.exists() )
                 {
-                    throw new MojoExecutionException( "Could not find the " + getPackagingFilename() + " file." );
+                	// Check alternates list
+                	StringBuffer buffer = new StringBuffer();
+                	buffer.append( getDeploymentDescriptorFilename() );
+
+                	String[] alternateDescriptorFilenames = getAlternateDeploymentDescriptorFilenames();
+                	if ( alternateDescriptorFilenames != null )
+                	{
+	                	for ( int i = 0; i < alternateDescriptorFilenames.length; i++ )
+	                	{
+	                		buffer.append( ", " );
+	                		buffer.append( alternateDescriptorFilenames[i] );
+
+	                		deploymentDescriptorFile = new File( packagingFileTargetParent, alternateDescriptorFilenames[i] );
+	                		if ( deploymentDescriptorFile != null && deploymentDescriptorFile.exists() )
+	                		{
+	                			break;
+	                		}
+						}
+                	}
+
+            		if ( deploymentDescriptorFile == null || !deploymentDescriptorFile.exists() )
+            		{
+                    	throw new MojoExecutionException( "Could not find descriptor files: " + buffer.toString() );
+            		}
                 }
-                else 
-                {
-                    FileUtils.copyFile( packagingFile, packagingFileTarget );
-                }
+
+                FileUtils.copyFile( deploymentDescriptorFile, packagingFileTarget );
             }
-            
+
             Set artifacts = project.getArtifacts();
             List rejects = new ArrayList();
             getLog().info( "");

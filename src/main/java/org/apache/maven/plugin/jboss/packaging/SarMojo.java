@@ -21,7 +21,7 @@ import java.io.File;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Build a JBoss Spring deployable Archive.
+ * Build a deployable JBoss Service Archive.
  * 
  * @goal sar
  * @phase package

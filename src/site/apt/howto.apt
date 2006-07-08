@@ -1,13 +1,6 @@
  ------
  Maven 2 JBoss Packaging Plugin: configuration examples
  ------
- Frank Mena 
- <frankm.os@gmail.com>
-
- Doug Douglass
- <douglass.doug>@gamil.com>
- ------
- June 24, 2006
 
 Introduction
 
@@ -15,33 +8,47 @@ Introduction
   
    * SAR -- Service Archive
 
+   * HAR -- Hibernate Archive
+   
    * Spring -- Spring BeanFactory Archive
-
-   * HAR -- ????
-
-  Packagings can be assembled in 3 different modes:
+   
+  Packagings can be assembled in 2 different modes:
 
    * [sar|har|spring] (default): generates the artifact
 
-   * [sar|har|spring]-inplace: package the archive in the source tree
+   * [sar|har|spring]-exploded: package the archive in the source tree
+   
+  Additionally, the following packaging modes are provided for compatibility with the deprecated jboss-sar-maven-plugin:
 
-   * [sar|har|spring]-exploded : package an exploded archive application
+   * sar-inplace : package an exploded archive application.
 
-  Each mode is materialized by a goal. For instance, to generate an exploded
-  sar from the current project, one would type
+  Each mode is materialized by a goal. For example, to generate an exploded
+  har from the current project, execute the following maven command line:
 
 +--------
-  mvn jboss-packaging:sar-exploded
+  mvn jboss-packaging:har-exploded
 +---------
 
-  JBoss packaging may also be integrated into the default maven packaging phase by setting the &lt;packaging&gt; element as follows:
+  The full description of goals is available {{{index.html}here}}.
+    
+Maven Packaging Integration
+
+  JBoss packaging may also be integrated into the default maven packaging phase by setting your POMs <packaging> element as follows:
 
    * jboss-sar -- produce SAR artifact
 
    * jboss-har -- produce HAR artifact
 
    * jboss-spring -- produce Spring artifact
-
-Configuration Options
-
+   
+  This allows your JBoss deployable artifacts to participate in all maven operations that act on artifacts including deployment
+  to remote repositories and dependency management.
   
+Deployment Descriptors
+ 
+  Each type of JBoss deployable archive has a specifically named XML deployment descriptor file that is read by JBoss at deployment
+  time. By default, this plugin enforces the existence, location and proper naming of these deployment descriptors and will fail your build if
+  the the descriptor is in error.
+  
+  The default deployment descriptor file can be overridden for each packaging type by setting the deploymentDescriptorFile parameter. The full
+  description of goals is available {{{index.html}here}}, each goal describes all of the configuration parameters available.

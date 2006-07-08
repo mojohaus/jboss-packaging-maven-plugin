@@ -21,7 +21,7 @@ public abstract class AbstractSpringPackagingMojo
     extends AbstractPackagingMojo
 {
 
-  public String getPackagingFilename() {	
+  public String getDeploymentDescriptorFilename() {	
 	return "jboss-spring.xml";
   }
   

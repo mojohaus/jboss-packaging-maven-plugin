@@ -21,27 +21,27 @@ import java.io.File;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Build a deployable JBoss Spring Archive.
+ * Build a deployable JBoss Hibernate Archive.
  * 
- * @goal spring
+ * @goal har
  * @phase package
  * @requiresDependencyResolution runtime
  */
-public class SpringMojo 
-  extends AbstractSpringPackagingMojo
+public class HarMojo 
+  extends AbstractHarPackagingMojo
 {
 
   /**
-   * Executes the SpringMojo on the current project.
+   * Executes the HarMojo on the current project.
    * 
    * @throws MojoExecutionException
-   *           if an error occured while building the webapp
+   *           if an error occured while building the har
    */
   public void execute()
     throws MojoExecutionException
   {
 	  	  	
-    File archiveFile = new File(getOutputDirectory(), getArchiveName() + ".spring");
+    File archiveFile = new File(getOutputDirectory(), getArchiveName() + ".har");
 
     try {
       performPackaging(archiveFile);
@@ -50,5 +50,5 @@ public class SpringMojo
       throw new MojoExecutionException("Error assembling archive", e);
     }
   }
-
+  
 }
