@@ -5,12 +5,11 @@
       <role-hint>jboss-sar</role-hint>
       <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
       <configuration>
-        <classifier></classifier>
         <extension>sar</extension>
         <type>jboss-sar</type>
-        <packaging>jar</packaging>
+        <packaging>jboss-sar</packaging>
         <language>java</language>
-        <addedToClasspath>false</addedToClasspath>
+        <addedToClasspath>true</addedToClasspath>
       </configuration>
     </component>
     <component>
@@ -35,12 +34,11 @@
       <role-hint>jboss-spring</role-hint>
       <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
       <configuration>
-        <classifier></classifier>
         <extension>spring</extension>
         <type>jboss-spring</type>
-        <packaging>jar</packaging>
+        <packaging>jboss-spring</packaging>
         <language>java</language>
-        <addedToClasspath>false</addedToClasspath>
+        <addedToClasspath>true</addedToClasspath>
       </configuration>
     </component>
     <component>
@@ -65,12 +63,11 @@
       <role-hint>jboss-har</role-hint>
       <implementation>org.apache.maven.artifact.handler.DefaultArtifactHandler</implementation>
       <configuration>
-        <classifier></classifier>
         <extension>har</extension>
         <type>jboss-har</type>
-        <packaging>jar</packaging>
+        <packaging>jboss-har</packaging>
         <language>java</language>
-        <addedToClasspath>false</addedToClasspath>
+        <addedToClasspath>true</addedToClasspath>
       </configuration>
     </component>
     <component>
