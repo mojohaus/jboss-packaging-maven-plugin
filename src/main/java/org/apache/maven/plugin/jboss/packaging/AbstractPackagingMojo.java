@@ -49,14 +49,14 @@ public abstract class AbstractPackagingMojo
      * @readonly
      */
     private MavenProject project;
-    
+
     /**
      * The directory for the generated packaging.
-     * 
+     *
      * @parameter expression="${project.build.directory}"
      * @required
      */
-    private String outputDirectory;    
+    private String outputDirectory;
 
     /**
      * The directory containing generated classes.
@@ -80,14 +80,14 @@ public abstract class AbstractPackagingMojo
 	 * jboss-service.xml, jboss-spring.xml, etc). If it is present in the
 	 * META-INF directory in src/main/resources with that name then it will
 	 * automatically be included. Otherwise this parameter must be set.
-	 * 
+	 *
 	 * @parameter
 	 */
 	protected File deploymentDescriptorFile;
 
     /**
 	 * The directory where to put the libs.
-	 * 
+	 *
 	 * @parameter expression="${project.build.directory}/${project.build.finalName}/lib"
 	 * @required
 	 */
@@ -95,23 +95,30 @@ public abstract class AbstractPackagingMojo
 
 	/**
 	 * The name of the generated packaging archive.
-	 * 
+	 *
 	 * @parameter expression="${project.build.finalName}"
 	 * @required
 	 */
 	private String archiveName;
 
-	/**
+    /**
+     * All artifacts are excluded
+     *
+     * @parameter expression="${excludeAll}" default-value="false"
+     */
+    private boolean excludeAll;
+
+    /**
 	 * Artifacts excluded from packaging within the generated archive file. Use
 	 * artifactId:groupId in nested exclude tags.
-	 * 
+	 *
 	 * @parameter
 	 */
 	Set excludes;
 
 	/**
 	   * The Jar archiver.
-	   * 
+	   *
 	   * @parameter expression="${component.org.codehaus.plexus.archiver.Archiver#jar}"
 	   * @required
 	   */
@@ -119,19 +126,19 @@ public abstract class AbstractPackagingMojo
 
 	/**
 	   * The maven archive configuration to use.
-	   * 
+	   *
 	   * @parameter
 	   */
 	MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
 
     /**
-     * 
+     *
      */
     public abstract void execute()
         throws MojoExecutionException;
 
     /**
-     * 
+     *
      * @return
      */
     public MavenProject getProject()
@@ -141,20 +148,20 @@ public abstract class AbstractPackagingMojo
     }
 
     /**
-     * 
+     *
      * @return
      */
     public File getPackagingDirectory()
     {
         return packagingDirectory;
     }
-    
+
     /**
      * Get the name of the deployment descriptor file.
-     * 
+     *
      * Sublcasses must override this method and provide the proper name for
      * their type of archive packaging
-     * 
+     *
      * @return deployment descriptor file name, sans path
      */
     public abstract String getDeploymentDescriptorFilename();
@@ -162,9 +169,9 @@ public abstract class AbstractPackagingMojo
     /**
      * If no deployment descriptor filesnames are found, check for
      * the existence of alternates before failing.
-     * 
+     *
      * Subclasses are not required to override this method.
-     * 
+     *
      * @return
      */
     public String[] getAlternateDeploymentDescriptorFilenames()
@@ -173,7 +180,7 @@ public abstract class AbstractPackagingMojo
     }
 
     /**
-     * 
+     *
      * @return
      */
 	public String getOutputDirectory() {
@@ -181,7 +188,7 @@ public abstract class AbstractPackagingMojo
 	}
 
 	/**
-     * 
+     *
      * @throws MojoExecutionException
      */
     public void buildExplodedPackaging()
@@ -189,10 +196,10 @@ public abstract class AbstractPackagingMojo
     {
         buildExplodedPackaging( Collections.EMPTY_SET );
     }
-    
-    
+
+
     /**
-     * 
+     *
      * @throws MojoExecutionException
      */
     public void buildExplodedPackaging( Set excludes )
@@ -204,7 +211,7 @@ public abstract class AbstractPackagingMojo
         {
             excludes = Collections.EMPTY_SET;
         }
-        
+
         packagingDirectory.mkdirs();
         libDirectory.mkdirs();
         try
@@ -215,7 +222,7 @@ public abstract class AbstractPackagingMojo
             {
                 FileUtils.copyDirectoryStructure( classesDirectory, packagingDirectory );
             }
-            
+
             File packagingFileTargetParent = new File( packagingDirectory, "META-INF" );
             File packagingFileTarget = new File( packagingFileTargetParent, getDeploymentDescriptorFilename() );
             if ( ! packagingFileTarget.exists() )
@@ -270,7 +277,7 @@ public abstract class AbstractPackagingMojo
                     String type = artifact.getType();
                     String descriptor = artifact.getGroupId() + ":" + artifact.getArtifactId();
 
-                    if ( "jar".equals( type ) && ! excludes.contains( descriptor ) )
+                    if ( !excludeAll && "jar".equals( type ) && ! excludes.contains( descriptor ) )
                     {
                         getLog().info( "        o " + descriptor );
                         FileUtils.copyFileToDirectory( artifact.getFile(), libDirectory );
@@ -281,7 +288,7 @@ public abstract class AbstractPackagingMojo
                     }
                 }
             }
-            
+
             if ( ! excludes.isEmpty() )
             {
                 getLog().info( "" );
@@ -310,7 +317,7 @@ public abstract class AbstractPackagingMojo
 
 	/**
 	   * Generates the packaged archive.
-	   * 
+	   *
 	   * @param archiveFile the target packaging archive file
 	   * @throws IOException
 	   * @throws ArchiverException
@@ -318,16 +325,16 @@ public abstract class AbstractPackagingMojo
 	   * @throws DependencyResolutionRequiredException
 	   */
 	protected void performPackaging(File archiveFile) throws IOException, ArchiverException, ManifestException, DependencyResolutionRequiredException, MojoExecutionException {
-	
+
 	    buildExplodedPackaging( excludes );
-	
+
 	    // generate archive file
 	    getLog().info("Generating JBoss packaging " + archiveFile.getAbsolutePath());
 	    MavenArchiver archiver = new MavenArchiver();
 	    archiver.setArchiver(jarArchiver);
 	    archiver.setOutputFile(archiveFile);
 	    jarArchiver.addDirectory(getPackagingDirectory());
-	
+
 	    // create archive
 	    archiver.createArchive(getProject(), archive);
 	    getProject().getArtifact().setFile(archiveFile);
