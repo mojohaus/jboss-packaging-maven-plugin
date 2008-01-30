@@ -20,9 +20,22 @@ package org.apache.maven.plugin.jboss.packaging;
 public abstract class AbstractSarPackagingMojo
     extends AbstractPackagingMojo
 {
+    /**
+     * The artifact type.
+     */
+    private static final String ARTIFACT_TYPE = "jboss-sar";
 
   public String getDeploymentDescriptorFilename() {	
 	return "jboss-service.xml";
   }
-  
+
+    /**
+     * Get the type of the artifact.
+     * 
+     * @return The type of the generated artifact.
+     */
+    public String getArtifactType()
+    {
+        return ARTIFACT_TYPE;
+    }
 }

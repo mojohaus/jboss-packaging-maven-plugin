@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -28,14 +29,19 @@ import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.artifact.DependencyResolutionRequiredException;
+import org.apache.maven.artifact.handler.ArtifactHandler;
+import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
 import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
+import org.apache.maven.project.MavenProjectHelper;
 import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
 import org.codehaus.plexus.archiver.jar.ManifestException;
 import org.codehaus.plexus.util.FileUtils;
+import org.codehaus.plexus.util.StringUtils;
 
 public abstract class AbstractPackagingMojo
     extends AbstractMojo
@@ -56,7 +62,7 @@ public abstract class AbstractPackagingMojo
      * @parameter expression="${project.build.directory}"
      * @required
      */
-    private String outputDirectory;
+    private File outputDirectory;
 
     /**
      * The directory containing generated classes.
@@ -132,10 +138,45 @@ public abstract class AbstractPackagingMojo
 	MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
 
     /**
-     *
+     * The manifest file for the archive.
+     * 
+     * @parameter
+     */
+    private File manifest;
+
+    /**
+     * Classifier to add to the generated artifact. If given, the artifact will be an attachment instead.
+     * 
+     * @parameter
+     */
+    private String classifier;
+
+    /**
+     * Whether this is the main artifact being constructed.
+     * 
+     * @parameter default-value="true"
+     */
+    private boolean primaryArtifact;
+
+    /**
+     * The project helper.
+     * 
+     * @component
+     */
+    private MavenProjectHelper projectHelper;
+
+    /**
+     * The artifact handler manager.
+     * 
+     * @component
+     */
+    private ArtifactHandlerManager artifactHandlerManager;
+
+    /**
+     * 
      */
     public abstract void execute()
-        throws MojoExecutionException;
+        throws MojoExecutionException, MojoFailureException;
 
     /**
      *
@@ -167,6 +208,13 @@ public abstract class AbstractPackagingMojo
     public abstract String getDeploymentDescriptorFilename();
 
     /**
+     * Get the type of the artifact.
+     * 
+     * @return The type of the generated artifact.
+     */
+    public abstract String getArtifactType();
+
+    /**
      * If no deployment descriptor filesnames are found, check for
      * the existence of alternates before failing.
      *
@@ -183,16 +231,17 @@ public abstract class AbstractPackagingMojo
      *
      * @return
      */
-	public String getOutputDirectory() {
+	public File getOutputDirectory() {
 		return outputDirectory;
 	}
 
 	/**
      *
      * @throws MojoExecutionException
+     * @throws MojoFailureException
      */
     public void buildExplodedPackaging()
-        throws MojoExecutionException
+        throws MojoExecutionException, MojoFailureException
     {
         buildExplodedPackaging( Collections.EMPTY_SET );
     }
@@ -201,9 +250,10 @@ public abstract class AbstractPackagingMojo
     /**
      *
      * @throws MojoExecutionException
+     * @throws MojoFailureException
      */
     public void buildExplodedPackaging( Set excludes )
-        throws MojoExecutionException
+        throws MojoExecutionException, MojoFailureException
     {
         getLog().info( "Exploding JBoss packaging..." );
 
@@ -265,22 +315,30 @@ public abstract class AbstractPackagingMojo
 
             Set artifacts = project.getArtifacts();
             List rejects = new ArrayList();
+            final Set includedArtifacts = new HashSet() ;
+            final ScopeArtifactFilter filter = new ScopeArtifactFilter( Artifact.SCOPE_RUNTIME );
             getLog().info( "");
             getLog().info( "    Including artifacts: ");
             getLog().info( "    -------------------");
             for ( Iterator iter = artifacts.iterator(); iter.hasNext(); )
             {
                 Artifact artifact = (Artifact) iter.next();
-                ScopeArtifactFilter filter = new ScopeArtifactFilter( Artifact.SCOPE_RUNTIME );
                 if ( !artifact.isOptional() && filter.include( artifact ) )
                 {
-                    String type = artifact.getType();
                     String descriptor = artifact.getGroupId() + ":" + artifact.getArtifactId();
 
-                    if ( !excludeAll && "jar".equals( type ) && ! excludes.contains( descriptor ) )
+                    if ( !excludeAll && artifact.getArtifactHandler().isAddedToClasspath() && ! excludes.contains( descriptor ) )
                     {
                         getLog().info( "        o " + descriptor );
-                        FileUtils.copyFileToDirectory( artifact.getFile(), libDirectory );
+                        
+                        String name = getArtifactName( artifact );
+                        if ( !includedArtifacts.add( name ) )
+                        {
+                            name = artifact.getGroupId() + "-" + name;
+                            getLog().debug( "Duplicate artifact discovered, using full name: " + name );
+                        }
+
+                        FileUtils.copyFile( artifact.getFile(), new File( libDirectory, name ) );
                     }
                     else
                     {
@@ -304,11 +362,30 @@ public abstract class AbstractPackagingMojo
                 getLog().info( "No artifacts have been excluded.");
             }
             getLog().info( "" );
+            
+            buildSpecificPackaging( excludes );
         }
         catch ( IOException e )
         {
             throw new MojoExecutionException( "Could not explode JBoss packaging...", e );
         }
+    }
+    
+    /**
+     * Perform any packaging specific to this type.
+     * 
+     * @param excludes
+     *            The exclude list.
+     * 
+     * @throws MojoExecutionException
+     *             For plugin failures.
+     * @throws MojoFailureException
+     *             For unexpected plugin failures.
+     * @throws IOException
+     *             For exceptions during IO operations.
+     */
+    protected void buildSpecificPackaging( final Set excludes ) throws MojoExecutionException, MojoFailureException, IOException
+    {
     }
 
 	public String getArchiveName() {
@@ -318,14 +395,21 @@ public abstract class AbstractPackagingMojo
 	/**
 	   * Generates the packaged archive.
 	   *
-	   * @param archiveFile the target packaging archive file
 	   * @throws IOException
 	   * @throws ArchiverException
 	   * @throws ManifestException
 	   * @throws DependencyResolutionRequiredException
+           * @throws MojoExecutionException
+           * @throws MojoFailureException
 	   */
-	protected void performPackaging(File archiveFile) throws IOException, ArchiverException, ManifestException, DependencyResolutionRequiredException, MojoExecutionException {
+	protected void performPackaging() throws IOException, ArchiverException, ManifestException, DependencyResolutionRequiredException, MojoExecutionException, MojoFailureException {
 
+        final ArtifactHandler artifactHandler = artifactHandlerManager.getArtifactHandler( getArtifactType() );
+        final String extension = artifactHandler.getExtension();
+        final String type = getArtifactType();
+
+        final File archiveFile = calculateFile( outputDirectory, archiveName, classifier, extension );
+            
 	    buildExplodedPackaging( excludes );
 
 	    // generate archive file
@@ -334,10 +418,74 @@ public abstract class AbstractPackagingMojo
 	    archiver.setArchiver(jarArchiver);
 	    archiver.setOutputFile(archiveFile);
 	    jarArchiver.addDirectory(getPackagingDirectory());
+        if ( manifest != null )
+        {
+            jarArchiver.setManifest( manifest );
+        }
 
 	    // create archive
 	    archiver.createArchive(getProject(), archive);
-	    getProject().getArtifact().setFile(archiveFile);
-	  }
-	
+        if ( classifier != null )
+        {
+            projectHelper.attachArtifact( project, type, classifier, archiveFile );
+        }
+        else if ( primaryArtifact )
+        {
+            final Artifact artifact = project.getArtifact();
+            artifact.setFile( archiveFile );
+            artifact.setArtifactHandler( artifactHandler );
+        }
+    }
+
+    /**
+     * Calculate the name of the archive file.
+     * 
+     * @param outputDirectory
+     *            The output directory.
+     * @param archiveName
+     *            The name of the artifact archive.
+     * @param classifier
+     *            The classifier of the artifact.
+     * @parma extension The artifact archive extension.
+     * @return The archive file.
+     */
+    private static File calculateFile( final File outputDirectory, final String archiveName, final String classifier,
+                                       final String extension )
+    {
+        final String basename;
+        if ( StringUtils.isEmpty( classifier ) )
+        {
+            basename = archiveName;
+        }
+        else
+        {
+            basename = archiveName + '-' + classifier;
+        }
+        return new File( outputDirectory, basename + '.' + extension );
+    }
+    
+    /**
+     * Get the name of the artifact.
+     * 
+     * @param artifact
+     *            The current artifact.
+     * @return The name of the artifact.
+     */
+    private static String getArtifactName( final Artifact artifact )
+    {
+        final String artifactName;
+        final String classifier = artifact.getClassifier();
+
+        if ( StringUtils.isEmpty( classifier ) )
+        {
+            artifactName = artifact.getArtifactId() + '-' + artifact.getVersion() + '.'
+                + artifact.getArtifactHandler().getExtension();
+        }
+        else
+        {
+            artifactName = artifact.getArtifactId() + '-' + artifact.getVersion() + '-'
+                + classifier + '.' + artifact.getArtifactHandler().getExtension();
+        }
+        return artifactName;
+    }
 }

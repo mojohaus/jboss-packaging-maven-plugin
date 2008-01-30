@@ -16,8 +16,6 @@ package org.apache.maven.plugin.jboss.packaging;
  * limitations under the License.
  */
 
-import java.io.File;
-
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
@@ -40,11 +38,8 @@ public class SpringMojo
   public void execute()
     throws MojoExecutionException
   {
-	  	  	
-    File archiveFile = new File(getOutputDirectory(), getArchiveName() + ".spring");
-
     try {
-      performPackaging(archiveFile);
+      performPackaging();
     }
     catch (Exception e) {
       throw new MojoExecutionException("Error assembling archive", e);

@@ -10,13 +10,15 @@ Introduction
 
    * HAR -- Hibernate Archive
    
+   * ESB -- ESB Archive
+   
    * Spring -- Spring BeanFactory Archive
    
   Packagings can be assembled in 2 different modes:
 
-   * [sar|har|spring] (default): generates the artifact
+   * [sar|har|esb|spring] (default): generates the artifact
 
-   * [sar|har|spring]-exploded: package the archive in the source tree
+   * [sar|har|esb|spring]-exploded: package the archive in the source tree
    
   Additionally, the following packaging modes are provided for compatibility with the deprecated jboss-sar-maven-plugin:
 
@@ -39,6 +41,8 @@ Maven Packaging Integration
 
    * jboss-har -- produce HAR artifact
 
+   * jboss-esb -- produce ESB artifact
+
    * jboss-spring -- produce Spring artifact
    
   This allows your JBoss deployable artifacts to participate in all maven operations that act on artifacts including deployment
@@ -48,7 +52,7 @@ Deployment Descriptors
  
   Each type of JBoss deployable archive has a specifically named XML deployment descriptor file that is read by JBoss at deployment
   time. By default, this plugin enforces the existence, location and proper naming of these deployment descriptors and will fail your build if
-  the the descriptor is in error.
+  the descriptor is in error.
   
   The default deployment descriptor file can be overridden for each packaging type by setting the deploymentDescriptorFile parameter. The full
   description of goals is available {{{index.html}here}}, each goal describes all of the configuration parameters available.

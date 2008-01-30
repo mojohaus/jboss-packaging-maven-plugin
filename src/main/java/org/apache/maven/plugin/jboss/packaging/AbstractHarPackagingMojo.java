@@ -21,11 +21,26 @@ public abstract class AbstractHarPackagingMojo
     extends AbstractSarPackagingMojo
 {
     /**
+     * The artifact type.
+     */
+    private static final String ARTIFACT_TYPE = "jboss-har";
+    
+    /**
      * If the SAR default descriptor file does not exist, then
      * we expect 'hibernate-service.xml' in its stead.
      */
     public String[] getAlternateDeploymentDescriptorFilenames()
     {
         return new String[] { "hibernate-service.xml" };
+    }
+
+    /**
+     * Get the type of the artifact.
+     *
+     * @return The type of the generated artifact.
+     */
+    public String getArtifactType()
+    {
+        return ARTIFACT_TYPE;
     }
 }

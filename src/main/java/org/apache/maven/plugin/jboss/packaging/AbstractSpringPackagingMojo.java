@@ -20,9 +20,22 @@ package org.apache.maven.plugin.jboss.packaging;
 public abstract class AbstractSpringPackagingMojo
     extends AbstractPackagingMojo
 {
+    /**
+     * The artifact type.
+     */
+    private static final String ARTIFACT_TYPE = "jboss-spring";
 
   public String getDeploymentDescriptorFilename() {	
 	return "jboss-spring.xml";
   }
-  
+
+    /**
+     * Get the type of the artifact.
+     * 
+     * @return The type of the generated artifact.
+     */
+    public String getArtifactType()
+    {
+        return ARTIFACT_TYPE;
+    }
 }

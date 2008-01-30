@@ -17,6 +17,7 @@ package org.apache.maven.plugin.jboss.packaging;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
 
 /**
  * Build a JBoss Spring deployable Archive.
@@ -30,7 +31,7 @@ public class HarExplodedMojo
 {
 
   public void execute() 
-    throws MojoExecutionException
+    throws MojoExecutionException, MojoFailureException
   {
       buildExplodedPackaging();
   }
