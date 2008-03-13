@@ -35,6 +35,7 @@
     <menu name="Overview">
       <item name="Introduction" href="introduction.html"/>
       <item name="How to Use" href="howto.html"/>
+      <item name="Goals" href="plugin-info.html"/>
     </menu>
     ${reports}
   </body>

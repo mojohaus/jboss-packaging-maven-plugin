@@ -48,6 +48,28 @@ Maven Packaging Integration
   This allows your JBoss deployable artifacts to participate in all maven operations that act on artifacts including deployment
   to remote repositories and dependency management.
   
+  To enable the jboss-[sar|har|esb|spring] packaging types, the POM or one of its parents must include this plugin with extensions
+  set to true:
+  
++---------
+  <build>
+    ...
+    <plugins>
+      ...
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jboss-packaging-maven-plugin</artifactId>
+
+        <!-- Enable packaging types and lifecycle bindings. -->
+        <extensions>true</extensions>
+        ...
+      </plugin>
+      ...
+    </plugins>
+    ...
+  </build>
++---------
+  
 Deployment Descriptors
  
   Each type of JBoss deployable archive has a specifically named XML deployment descriptor file that is read by JBoss at deployment
