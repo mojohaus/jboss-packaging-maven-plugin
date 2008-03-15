@@ -20,7 +20,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
 /**
- * Build a JBoss Spring deployable Archive.
+ * Build a JBoss Hibernate exploded Archive.
  * 
  * @goal har-exploded
  * @phase package

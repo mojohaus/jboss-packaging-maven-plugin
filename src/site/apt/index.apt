@@ -1,0 +1,33 @@
+ ------
+ Introduction
+ ------
+
+JBoss Packaging Maven Plugin
+
+  This plugin packages various JBoss deployable archive files including SAR,
+  HAR, ESB and Spring. Such archives are specially named JAR files with a
+  deployable-specific XML descriptor and file extension.
+
+* Goals Overview
+
+  General Information about the goals.
+
+  * {{{esb-exploded-mojo.html}jboss-packaging:esb-exploded}} Builds a JBoss ESB exploded Archive.
+
+  * {{{esb-mojo.html}jboss-packaging:esb}} Builds a JBoss ESB Archive.
+
+  * {{{har-exploded-mojo.html}jboss-packaging:har-exploded}} Build a JBoss Hibernate exploded Archive.
+
+  * {{{har-mojo.html}jboss-packaging:har}} Build a deployable JBoss Hibernate Archive.
+
+  * {{{sar-exploded-mojo.html}jboss-packaging:sar-exploded}} Build a JBoss Service exploded Archive.
+
+  * {{{sar-inplace-mojo.html}jboss-packaging:sar-inplace}} Build a JBoss Service in place exploded Archive.
+
+  * {{{sar-mojo.html}jboss-packaging:sar}} Build a deployable JBoss Service Archive.
+
+  * {{{spring-mojo.html}jboss-packaging:spring}} Build a deployable JBoss Spring Archive.
+
+* Usage
+
+  Instructions on how to use the plugin can be found {{{usage.html}here}}.

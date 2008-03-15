@@ -20,7 +20,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
 /**
- * Build a JBoss Spring deployable Archive.
+ * Build a JBoss Service in place exploded Archive.
  * 
  * @goal sar-inplace
  * @phase package

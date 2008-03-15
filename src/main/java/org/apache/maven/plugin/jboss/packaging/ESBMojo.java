@@ -19,7 +19,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
 /**
- * Builds a JBoss ESB archive.
+ * Builds a JBoss ESB Archive.
  *
  * @author <a href="mailto:kevin.conner@jboss.com">Kevin Conner</a>
  *
