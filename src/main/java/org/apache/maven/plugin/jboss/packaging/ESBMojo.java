@@ -22,17 +22,18 @@ import org.apache.maven.plugin.MojoFailureException;
  * Builds a JBoss ESB Archive.
  *
  * @author <a href="mailto:kevin.conner@jboss.com">Kevin Conner</a>
- *
  * @goal esb
  * @phase package
  * @requiresDependencyResolution runtime
  */
-public class ESBMojo extends AbstractESBMojo
+public class ESBMojo
+    extends AbstractESBMojo
 {
     /**
      * Execute the mojo in the current project.
+     *
      * @throws MojoExecutionException For plugin failures.
-     * @throws MojoFailureException For unexpected plugin failures.
+     * @throws MojoFailureException   For unexpected plugin failures.
      */
     public void execute()
         throws MojoExecutionException, MojoFailureException

@@ -21,19 +21,19 @@ import org.apache.maven.plugin.MojoFailureException;
 
 /**
  * Build a JBoss Service exploded Archive.
- * 
+ *
  * @goal sar-exploded
  * @phase package
  * @requiresDependencyResolution runtime
  */
-public class SarExplodedMojo 
-  extends AbstractSarPackagingMojo
+public class SarExplodedMojo
+    extends AbstractSarPackagingMojo
 {
 
-  public void execute() 
-    throws MojoExecutionException, MojoFailureException
-  {
-      buildExplodedPackaging();
-  }
-  
+    public void execute()
+        throws MojoExecutionException, MojoFailureException
+    {
+        buildExplodedPackaging();
+    }
+
 }

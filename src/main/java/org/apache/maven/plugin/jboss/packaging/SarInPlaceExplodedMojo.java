@@ -21,20 +21,20 @@ import org.apache.maven.plugin.MojoFailureException;
 
 /**
  * Build a JBoss Service in place exploded Archive.
- * 
+ *
  * @goal sar-inplace
  * @phase package
  * @requiresDependencyResolution runtime
  */
-public class SarInPlaceExplodedMojo 
-  extends AbstractSarPackagingMojo
+public class SarInPlaceExplodedMojo
+    extends AbstractSarPackagingMojo
 {
 
-  public void execute() 
-    throws MojoExecutionException, MojoFailureException
-  {
-	  getLog().info("Generating sar in source directory... " + getPackagingDirectory());
-	  buildExplodedPackaging();
-  }
-  
+    public void execute()
+        throws MojoExecutionException, MojoFailureException
+    {
+        getLog().info( "Generating sar in source directory... " + getPackagingDirectory() );
+        buildExplodedPackaging();
+    }
+
 }

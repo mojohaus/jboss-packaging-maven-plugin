@@ -20,30 +20,31 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Build a deployable JBoss Spring Archive.
- * 
+ *
  * @goal spring
  * @phase package
  * @requiresDependencyResolution runtime
  */
-public class SpringMojo 
-  extends AbstractSpringPackagingMojo
+public class SpringMojo
+    extends AbstractSpringPackagingMojo
 {
 
-  /**
-   * Executes the SpringMojo on the current project.
-   * 
-   * @throws MojoExecutionException
-   *           if an error occured while building the webapp
-   */
-  public void execute()
-    throws MojoExecutionException
-  {
-    try {
-      performPackaging();
+    /**
+     * Executes the SpringMojo on the current project.
+     *
+     * @throws MojoExecutionException if an error occured while building the webapp
+     */
+    public void execute()
+        throws MojoExecutionException
+    {
+        try
+        {
+            performPackaging();
+        }
+        catch ( Exception e )
+        {
+            throw new MojoExecutionException( "Error assembling archive", e );
+        }
     }
-    catch (Exception e) {
-      throw new MojoExecutionException("Error assembling archive", e);
-    }
-  }
 
 }

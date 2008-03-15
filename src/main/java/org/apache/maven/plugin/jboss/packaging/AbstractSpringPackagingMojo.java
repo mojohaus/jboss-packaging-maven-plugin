@@ -25,13 +25,14 @@ public abstract class AbstractSpringPackagingMojo
      */
     private static final String ARTIFACT_TYPE = "jboss-spring";
 
-  public String getDeploymentDescriptorFilename() {	
-	return "jboss-spring.xml";
-  }
+    public String getDeploymentDescriptorFilename()
+    {
+        return "jboss-spring.xml";
+    }
 
     /**
      * Get the type of the artifact.
-     * 
+     *
      * @return The type of the generated artifact.
      */
     public String getArtifactType()

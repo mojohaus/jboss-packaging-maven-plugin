@@ -25,13 +25,14 @@ public abstract class AbstractSarPackagingMojo
      */
     private static final String ARTIFACT_TYPE = "jboss-sar";
 
-  public String getDeploymentDescriptorFilename() {	
-	return "jboss-service.xml";
-  }
+    public String getDeploymentDescriptorFilename()
+    {
+        return "jboss-service.xml";
+    }
 
     /**
      * Get the type of the artifact.
-     * 
+     *
      * @return The type of the generated artifact.
      */
     public String getArtifactType()

@@ -21,19 +21,19 @@ import org.apache.maven.plugin.MojoFailureException;
 
 /**
  * Build a JBoss Hibernate exploded Archive.
- * 
+ *
  * @goal har-exploded
  * @phase package
  * @requiresDependencyResolution runtime
  */
-public class HarExplodedMojo 
-  extends AbstractHarPackagingMojo
+public class HarExplodedMojo
+    extends AbstractHarPackagingMojo
 {
 
-  public void execute() 
-    throws MojoExecutionException, MojoFailureException
-  {
-      buildExplodedPackaging();
-  }
-  
+    public void execute()
+        throws MojoExecutionException, MojoFailureException
+    {
+        buildExplodedPackaging();
+    }
+
 }

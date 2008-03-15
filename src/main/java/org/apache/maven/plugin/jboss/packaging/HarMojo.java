@@ -20,30 +20,31 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Build a deployable JBoss Hibernate Archive.
- * 
+ *
  * @goal har
  * @phase package
  * @requiresDependencyResolution runtime
  */
-public class HarMojo 
-  extends AbstractHarPackagingMojo
+public class HarMojo
+    extends AbstractHarPackagingMojo
 {
 
-  /**
-   * Executes the HarMojo on the current project.
-   * 
-   * @throws MojoExecutionException
-   *           if an error occured while building the har
-   */
-  public void execute()
-    throws MojoExecutionException
-  {
-    try {
-      performPackaging();
+    /**
+     * Executes the HarMojo on the current project.
+     *
+     * @throws MojoExecutionException if an error occured while building the har
+     */
+    public void execute()
+        throws MojoExecutionException
+    {
+        try
+        {
+            performPackaging();
+        }
+        catch ( Exception e )
+        {
+            throw new MojoExecutionException( "Error assembling archive", e );
+        }
     }
-    catch (Exception e) {
-      throw new MojoExecutionException("Error assembling archive", e);
-    }
-  }
-  
+
 }
