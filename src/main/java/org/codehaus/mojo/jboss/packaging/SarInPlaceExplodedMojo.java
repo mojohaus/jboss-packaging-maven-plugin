@@ -1,4 +1,4 @@
-package org.apache.maven.plugin.jboss.packaging;
+package org.codehaus.mojo.jboss.packaging;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,19 +23,20 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
 /**
- * Build a JBoss Service exploded Archive.
+ * Build a JBoss Service in place exploded Archive.
  *
- * @goal sar-exploded
+ * @goal sar-inplace
  * @phase package
  * @requiresDependencyResolution runtime
  */
-public class SarExplodedMojo
+public class SarInPlaceExplodedMojo
     extends AbstractSarPackagingMojo
 {
 
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
+        getLog().info( "Generating sar in source directory... " + getPackagingDirectory() );
         buildExplodedPackaging();
     }
 

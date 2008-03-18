@@ -1,4 +1,4 @@
-package org.apache.maven.plugin.jboss.packaging;
+package org.codehaus.mojo.jboss.packaging;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -20,35 +20,34 @@ package org.apache.maven.plugin.jboss.packaging;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 
 /**
- * Builds a JBoss ESB Archive.
+ * Build a deployable JBoss Spring Archive.
  *
- * @author <a href="mailto:kevin.conner@jboss.com">Kevin Conner</a>
- * @goal esb
+ * @goal spring
  * @phase package
  * @requiresDependencyResolution runtime
  */
-public class ESBMojo
-    extends AbstractESBMojo
+public class SpringMojo
+    extends AbstractSpringPackagingMojo
 {
+
     /**
-     * Execute the mojo in the current project.
+     * Executes the SpringMojo on the current project.
      *
-     * @throws MojoExecutionException For plugin failures.
-     * @throws MojoFailureException   For unexpected plugin failures.
+     * @throws MojoExecutionException if an error occured while building the webapp
      */
     public void execute()
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
         try
         {
             performPackaging();
         }
-        catch ( final Exception ex )
+        catch ( Exception e )
         {
-            throw new MojoExecutionException( "Error assembling archive", ex );
+            throw new MojoExecutionException( "Error assembling archive", e );
         }
     }
+
 }

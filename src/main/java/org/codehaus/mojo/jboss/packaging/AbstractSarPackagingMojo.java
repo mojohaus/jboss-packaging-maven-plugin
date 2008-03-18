@@ -1,4 +1,4 @@
-package org.apache.maven.plugin.jboss.packaging;
+package org.codehaus.mojo.jboss.packaging;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,21 +19,17 @@ package org.apache.maven.plugin.jboss.packaging;
  * under the License.
  */
 
-public abstract class AbstractHarPackagingMojo
-    extends AbstractSarPackagingMojo
+public abstract class AbstractSarPackagingMojo
+    extends AbstractPackagingMojo
 {
     /**
      * The artifact type.
      */
-    private static final String ARTIFACT_TYPE = "jboss-har";
+    private static final String ARTIFACT_TYPE = "jboss-sar";
 
-    /**
-     * If the SAR default descriptor file does not exist, then
-     * we expect 'hibernate-service.xml' in its stead.
-     */
-    public String[] getAlternateDeploymentDescriptorFilenames()
+    public String getDeploymentDescriptorFilename()
     {
-        return new String[]{"hibernate-service.xml"};
+        return "jboss-service.xml";
     }
 
     /**

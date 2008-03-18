@@ -1,4 +1,4 @@
-package org.apache.maven.plugin.jboss.packaging;
+package org.codehaus.mojo.jboss.packaging;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,25 +23,20 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 
 /**
- * Builds a JBoss ESB exploded Archive.
+ * Build a JBoss Hibernate exploded Archive.
  *
- * @author <a href="mailto:kevin.conner@jboss.com">Kevin Conner</a>
- * @goal esb-exploded
+ * @goal har-exploded
  * @phase package
  * @requiresDependencyResolution runtime
  */
-public class ESBExplodedMojo
-    extends AbstractESBMojo
+public class HarExplodedMojo
+    extends AbstractHarPackagingMojo
 {
-    /**
-     * Execute the mojo in the current project.
-     *
-     * @throws MojoExecutionException For plugin failures.
-     * @throws MojoFailureException   For unexpected plugin failures.
-     */
+
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
         buildExplodedPackaging();
     }
+
 }

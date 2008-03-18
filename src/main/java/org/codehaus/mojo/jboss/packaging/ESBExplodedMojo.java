@@ -1,4 +1,4 @@
-package org.apache.maven.plugin.jboss.packaging;
+package org.codehaus.mojo.jboss.packaging;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,26 +19,29 @@ package org.apache.maven.plugin.jboss.packaging;
  * under the License.
  */
 
-public abstract class AbstractSarPackagingMojo
-    extends AbstractPackagingMojo
+import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.MojoFailureException;
+
+/**
+ * Builds a JBoss ESB exploded Archive.
+ *
+ * @author <a href="mailto:kevin.conner@jboss.com">Kevin Conner</a>
+ * @goal esb-exploded
+ * @phase package
+ * @requiresDependencyResolution runtime
+ */
+public class ESBExplodedMojo
+    extends AbstractESBMojo
 {
     /**
-     * The artifact type.
-     */
-    private static final String ARTIFACT_TYPE = "jboss-sar";
-
-    public String getDeploymentDescriptorFilename()
-    {
-        return "jboss-service.xml";
-    }
-
-    /**
-     * Get the type of the artifact.
+     * Execute the mojo in the current project.
      *
-     * @return The type of the generated artifact.
+     * @throws MojoExecutionException For plugin failures.
+     * @throws MojoFailureException   For unexpected plugin failures.
      */
-    public String getArtifactType()
+    public void execute()
+        throws MojoExecutionException, MojoFailureException
     {
-        return ARTIFACT_TYPE;
+        buildExplodedPackaging();
     }
 }

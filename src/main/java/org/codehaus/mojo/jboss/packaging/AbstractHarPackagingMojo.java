@@ -1,4 +1,4 @@
-package org.apache.maven.plugin.jboss.packaging;
+package org.codehaus.mojo.jboss.packaging;
 
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -19,24 +19,30 @@ package org.apache.maven.plugin.jboss.packaging;
  * under the License.
  */
 
-import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-
-/**
- * Build a JBoss Hibernate exploded Archive.
- *
- * @goal har-exploded
- * @phase package
- * @requiresDependencyResolution runtime
- */
-public class HarExplodedMojo
-    extends AbstractHarPackagingMojo
+public abstract class AbstractHarPackagingMojo
+    extends AbstractSarPackagingMojo
 {
+    /**
+     * The artifact type.
+     */
+    private static final String ARTIFACT_TYPE = "jboss-har";
 
-    public void execute()
-        throws MojoExecutionException, MojoFailureException
+    /**
+     * If the SAR default descriptor file does not exist, then
+     * we expect 'hibernate-service.xml' in its stead.
+     */
+    public String[] getAlternateDeploymentDescriptorFilenames()
     {
-        buildExplodedPackaging();
+        return new String[]{"hibernate-service.xml"};
     }
 
+    /**
+     * Get the type of the artifact.
+     *
+     * @return The type of the generated artifact.
+     */
+    public String getArtifactType()
+    {
+        return ARTIFACT_TYPE;
+    }
 }
