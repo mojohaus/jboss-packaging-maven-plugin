@@ -1,0 +1,75 @@
+ ------
+ Sar Examples
+ ------
+ Paul Gier <pgier at redhat.com>
+ ------
+ April 11 2008
+ ------
+
+JBoss Sar Examples
+
+  The sar goal can be used by setting the project packaging type to <<<jboss-sar>>> and adding the 
+  plugin to the pom with extensions enabled.
+  
++---------
+<project>
+  ...
+  <packaging>jboss-sar</packaging>
+  ...
+  <build>
+    ...
+    <plugins>
+      ...
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jboss-packaging-maven-plugin</artifactId>
+
+        <!-- Enable packaging types and lifecycle bindings. -->
+        <extensions>true</extensions>
+        ...
+      </plugin>
+      ...
+    </plugins>
+    ...
+  </build>
+  ...
+</project>
++---------
+
+* Including and excluding dependencies
+
+  A sar project will normally include some dependencies that should be
+  added the the sar "lib" directory, and some that should not be included.
+  
+  By default only dependencies with a <<compile>> or <<runtime>> scope will be included 
+  in the generated sar file.  The excludes parameter can also be used to prevent
+  certain dependency artifacts from being included in the sar.
+  
++---------
+<project>
+  ...
+  <packaging>jboss-sar</packaging>
+  ...
+  <build>
+    ...
+    <plugins>
+      ...
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jboss-packaging-maven-plugin</artifactId>
+        <version>2.0-SNAPSHOT</version>
+        <extensions>true</extensions>
+        <configuration>
+          <excludes>
+            <exclude>groupId:artifactId</exclude> <!-- if you want to exclude an artifact in the sar -->
+          </excludes>
+        </configuration>
+      </plugin>
+      ...
+    </plugins>
+    ...
+  </build>
+  ...
+</project>  
++---------
+  
