@@ -23,7 +23,7 @@
   
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.codehaus.mojo</groupId>
-  <artifactId>jboss-sar-example</artifactId>
+  <artifactId>sar-basic-test</artifactId>
   <packaging>jboss-sar</packaging>
   <name>JBoss Packaging Maven Plugin</name>
   <version>1.0-SNAPSHOT</version>

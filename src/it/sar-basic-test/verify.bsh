@@ -3,7 +3,7 @@ import java.util.*;
 
 try
 {
-    File file = new File( basedir, "target/jboss-sar-example-1.0-SNAPSHOT.sar" );
+    File file = new File( basedir, "target/sar-basic-test-1.0-SNAPSHOT.sar" );
     if ( !file.exists() || file.isDirectory() )
     {
         System.err.println( "Could not find generated sar: " + file );
