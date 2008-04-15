@@ -114,11 +114,13 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-invoker-plugin</artifactId>
             <version>1.1</version>
-            <configuration>
+            <configuration>'
+              <debug>true</debug>
               <projectsDirectory>src/it</projectsDirectory>
               <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
               <pomIncludes>
                 <pomInclude>*/pom.xml</pomInclude>
+                <pomInclude>${jdk15.it.pom.includes}</pomInclude>
               </pomIncludes>
               <postBuildHookScript>verify.bsh</postBuildHookScript>
               <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
@@ -141,6 +143,21 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <!-- If jdk1.5 or higher is being used to test the plugin, this profile
+        -  can be activated to run the extra tests
+        -->
+      <id>jdk15</id>
+      <activation>
+        <jdk>1.5</jdk>
+      </activation>
+      <properties>
+        <jdk15.it.pom.includes>jdk15-tests/*/pom.xml</jdk15.it.pom.includes>
+      </properties>
+    </profile>
   </profiles>
   
+  <properties>
+    <jdk15.it.pom.includes>*/pom.xml</jdk15.it.pom.includes>
+  </properties>
 </project>
