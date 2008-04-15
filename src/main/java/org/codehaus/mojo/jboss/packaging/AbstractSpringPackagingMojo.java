@@ -19,6 +19,9 @@ package org.codehaus.mojo.jboss.packaging;
  * under the License.
  */
 
+/**
+ * Abstract super class for building a deployable JBoss Spring Archive.
+ */
 public abstract class AbstractSpringPackagingMojo
     extends AbstractPackagingMojo
 {
@@ -27,6 +30,11 @@ public abstract class AbstractSpringPackagingMojo
      */
     private static final String ARTIFACT_TYPE = "jboss-spring";
 
+    /**
+     * Return the name of the jboss-spring deployment descriptor (jboss-spring.xml).
+     * 
+     * @return Filename of the jboss spring deployment descriptor
+     */
     public String getDeploymentDescriptorFilename()
     {
         return "jboss-spring.xml";

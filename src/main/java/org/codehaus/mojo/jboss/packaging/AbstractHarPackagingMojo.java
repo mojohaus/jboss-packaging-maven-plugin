@@ -19,6 +19,9 @@ package org.codehaus.mojo.jboss.packaging;
  * under the License.
  */
 
+/**
+ * Abstract super class for building a deployable JBoss Hibernate Archive.
+ */
 public abstract class AbstractHarPackagingMojo
     extends AbstractSarPackagingMojo
 {
@@ -30,6 +33,8 @@ public abstract class AbstractHarPackagingMojo
     /**
      * If the SAR default descriptor file does not exist, then
      * we expect 'hibernate-service.xml' in its stead.
+     * 
+     * @return String array containing the name of the jboss hibernate deployment descriptor.
      */
     public String[] getAlternateDeploymentDescriptorFilenames()
     {

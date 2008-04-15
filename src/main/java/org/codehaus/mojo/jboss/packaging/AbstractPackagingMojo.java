@@ -46,6 +46,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Abstract super class for all the packaging mojos.  This class contains
+ * the logic for actually building the packaging types.
+ * 
+ */
 public abstract class AbstractPackagingMojo
     extends AbstractMojo
 {
@@ -123,7 +128,7 @@ public abstract class AbstractPackagingMojo
      *
      * @parameter
      */
-    Set excludes;
+    private Set excludes;
 
     /**
      * The Jar archiver.
@@ -131,14 +136,14 @@ public abstract class AbstractPackagingMojo
      * @parameter expression="${component.org.codehaus.plexus.archiver.Archiver#jar}"
      * @required
      */
-    JarArchiver jarArchiver;
+    private JarArchiver jarArchiver;
 
     /**
      * The maven archive configuration to use.
      *
      * @parameter
      */
-    MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
+    private MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
 
     /**
      * The manifest file for the archive.
@@ -176,22 +181,15 @@ public abstract class AbstractPackagingMojo
     private ArtifactHandlerManager artifactHandlerManager;
 
     /**
-     *
-     */
-    public abstract void execute()
-        throws MojoExecutionException, MojoFailureException;
-
-    /**
-     * @return
+     * @return the maven project
      */
     public MavenProject getProject()
     {
-
         return project;
     }
 
     /**
-     * @return
+     * @return the packaging directory
      */
     public File getPackagingDirectory()
     {
@@ -221,7 +219,7 @@ public abstract class AbstractPackagingMojo
      *
      * Subclasses are not required to override this method.
      *
-     * @return
+     * @return alternate deployment descriptor filenames
      */
     public String[] getAlternateDeploymentDescriptorFilenames()
     {
@@ -229,7 +227,7 @@ public abstract class AbstractPackagingMojo
     }
 
     /**
-     * @return
+     * @return The directory to write the archive
      */
     public File getOutputDirectory()
     {
@@ -237,8 +235,8 @@ public abstract class AbstractPackagingMojo
     }
 
     /**
-     * @throws MojoExecutionException
-     * @throws MojoFailureException
+     * @throws MojoExecutionException if an error occurred
+     * @throws MojoFailureException if an error occurred
      */
     public void buildExplodedPackaging()
         throws MojoExecutionException, MojoFailureException
@@ -248,8 +246,12 @@ public abstract class AbstractPackagingMojo
 
 
     /**
-     * @throws MojoExecutionException
-     * @throws MojoFailureException
+     * Build the package in an exploded format.
+     * 
+     * @param excludes File patterns to exclude from the packaging.
+     * 
+     * @throws MojoExecutionException if an error occurred
+     * @throws MojoFailureException if an error occurred
      */
     public void buildExplodedPackaging( Set excludes )
         throws MojoExecutionException, MojoFailureException
@@ -385,6 +387,10 @@ public abstract class AbstractPackagingMojo
     {
     }
 
+    /**
+     * 
+     * @return The name of the archive
+     */
     public String getArchiveName()
     {
         return archiveName;
@@ -393,13 +399,12 @@ public abstract class AbstractPackagingMojo
     /**
      * Generates the packaged archive.
      *
-     * @throws IOException
-     * @throws ArchiverException
-     * @throws ManifestException
-     * @throws DependencyResolutionRequiredException
-     *
-     * @throws MojoExecutionException
-     * @throws MojoFailureException
+     * @throws IOException if there is a problem
+     * @throws ArchiverException if there is a problem
+     * @throws ManifestException if there is a problem
+     * @throws DependencyResolutionRequiredException if there is a problem
+     * @throws MojoExecutionException if there is a problem
+     * @throws MojoFailureException if there is a problem
      */
     protected void performPackaging()
         throws IOException, ArchiverException, ManifestException, DependencyResolutionRequiredException,
@@ -445,8 +450,9 @@ public abstract class AbstractPackagingMojo
      * @param outputDirectory The output directory.
      * @param archiveName     The name of the artifact archive.
      * @param classifier      The classifier of the artifact.
+     * @param extension       The artifact archive extension.
+     * 
      * @return The archive file.
-     * @parma extension The artifact archive extension.
      */
     private static File calculateFile( final File outputDirectory, final String archiveName, final String classifier,
                                        final String extension )

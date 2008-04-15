@@ -19,6 +19,9 @@ package org.codehaus.mojo.jboss.packaging;
  * under the License.
  */
 
+/**
+ * Abstract super clas for building a deployable JBoss Service Archive.
+ */
 public abstract class AbstractSarPackagingMojo
     extends AbstractPackagingMojo
 {
@@ -27,6 +30,11 @@ public abstract class AbstractSarPackagingMojo
      */
     private static final String ARTIFACT_TYPE = "jboss-sar";
 
+    /**
+     * Get the deployment descriptor filename.
+     * 
+     * @return The filename of the deployment descriptor (jboss-service.xml).
+     */
     public String getDeploymentDescriptorFilename()
     {
         return "jboss-service.xml";

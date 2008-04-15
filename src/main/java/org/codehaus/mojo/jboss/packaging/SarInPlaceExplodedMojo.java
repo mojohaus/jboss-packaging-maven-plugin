@@ -33,6 +33,12 @@ public class SarInPlaceExplodedMojo
     extends AbstractSarPackagingMojo
 {
 
+    /**
+     * Main plugin execution path.
+     * 
+     * @throws MojoExecutionException if an error occurred
+     * @throws MojoFailureException if an error occurred
+     */
     public void execute()
         throws MojoExecutionException, MojoFailureException
     {
