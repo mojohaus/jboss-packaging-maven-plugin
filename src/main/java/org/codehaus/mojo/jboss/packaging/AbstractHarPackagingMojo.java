@@ -23,13 +23,32 @@ package org.codehaus.mojo.jboss.packaging;
  * Abstract super class for building a deployable JBoss Hibernate Archive.
  */
 public abstract class AbstractHarPackagingMojo
-    extends AbstractSarPackagingMojo
+    extends AbstractPackagingMojo
 {
     /**
      * The artifact type.
      */
     private static final String ARTIFACT_TYPE = "jboss-har";
 
+    /**
+     * Set the version of jboss for which the archive is being generated.
+     * If jbossVersion is set to "5", the name of the deployment descriptor
+     * filename will be "jboss-hibernate.xml".  Otherwise, the filename 
+     * will be "jboss-service.xml"
+     * 
+     * @parameter default-value="4"
+     */
+    private String jbossVersion;
+
+    public String getDeploymentDescriptorFilename()
+    {
+        if ( jbossVersion != null && "5".compareTo( jbossVersion ) <= 0 )
+        {
+            return "jboss-hibernate.xml";
+        }
+        return "jboss-service.xml";
+    }
+    
     /**
      * If the SAR default descriptor file does not exist, then
      * we expect 'hibernate-service.xml' in its stead.
