@@ -24,7 +24,7 @@ import org.apache.maven.plugin.MojoFailureException;
 
 /**
  * Builds a JBoss ESB exploded Archive.
- *
+ * 
  * @author <a href="mailto:kevin.conner@jboss.com">Kevin Conner</a>
  * @goal esb-exploded
  * @phase package
@@ -35,9 +35,9 @@ public class ESBExplodedMojo
 {
     /**
      * Execute the mojo in the current project.
-     *
+     * 
      * @throws MojoExecutionException For plugin failures.
-     * @throws MojoFailureException   For unexpected plugin failures.
+     * @throws MojoFailureException For unexpected plugin failures.
      */
     public void execute()
         throws MojoExecutionException, MojoFailureException

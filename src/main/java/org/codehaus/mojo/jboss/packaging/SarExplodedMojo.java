@@ -24,7 +24,7 @@ import org.apache.maven.plugin.MojoFailureException;
 
 /**
  * Build a JBoss Service exploded Archive.
- *
+ * 
  * @goal sar-exploded
  * @phase package
  * @requiresDependencyResolution runtime

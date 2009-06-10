@@ -23,7 +23,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Build a deployable JBoss Hibernate Archive.
- *
+ * 
  * @goal har
  * @phase package
  * @requiresDependencyResolution runtime
@@ -34,7 +34,7 @@ public class HarMojo
 
     /**
      * Executes the HarMojo on the current project.
-     *
+     * 
      * @throws MojoExecutionException if an error occured while building the har
      */
     public void execute()

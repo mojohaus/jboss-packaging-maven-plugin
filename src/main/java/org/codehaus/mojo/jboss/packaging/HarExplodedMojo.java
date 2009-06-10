@@ -24,7 +24,7 @@ import org.apache.maven.plugin.MojoFailureException;
 
 /**
  * Build a JBoss Hibernate exploded Archive.
- *
+ * 
  * @goal har-exploded
  * @phase package
  * @requiresDependencyResolution runtime

@@ -42,7 +42,7 @@ public abstract class AbstractSarPackagingMojo
 
     /**
      * Get the type of the artifact.
-     *
+     * 
      * @return The type of the generated artifact.
      */
     public String getArtifactType()

@@ -23,7 +23,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Build a deployable JBoss Service Archive.
- *
+ * 
  * @goal sar
  * @phase package
  * @requiresDependencyResolution runtime
@@ -34,7 +34,7 @@ public class SarMojo
 
     /**
      * Executes the SarMojo on the current project.
-     *
+     * 
      * @throws MojoExecutionException if an error occured while building the webapp
      */
     public void execute()

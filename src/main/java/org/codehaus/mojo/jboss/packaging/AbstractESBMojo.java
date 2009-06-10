@@ -29,7 +29,7 @@ import java.util.Set;
 
 /**
  * Base class for building a JBoss ESB archive.
- *
+ * 
  * @author <a href="mailto:kevin.conner@jboss.com">Kevin Conner</a>
  */
 public abstract class AbstractESBMojo
@@ -57,18 +57,18 @@ public abstract class AbstractESBMojo
 
     /**
      * Override the deployment xml file
-     *
+     * 
      * @parameter expression="${maven.esb.deployment.xml}"
      */
     private File deploymentXml;
 
     /**
      * Perform any packaging specific to this type.
-     *
+     * 
      * @param excludes The exclude list.
      * @throws MojoExecutionException For plugin failures.
-     * @throws MojoFailureException   For unexpected plugin failures.
-     * @throws IOException            For exceptions during IO operations.
+     * @throws MojoFailureException For unexpected plugin failures.
+     * @throws IOException For exceptions during IO operations.
      */
     protected void buildSpecificPackaging( final Set excludes )
         throws MojoExecutionException, MojoFailureException, IOException
@@ -81,11 +81,9 @@ public abstract class AbstractESBMojo
     }
 
     /**
-     * Get the name of the deployment descriptor file.
-     *
-     * Sublcasses must override this method and provide the proper name for
-     * their type of archive packaging
-     *
+     * Get the name of the deployment descriptor file. Sublcasses must override this method and provide the proper name
+     * for their type of archive packaging
+     * 
      * @return deployment descriptor file name, sans path
      */
     public String getDeploymentDescriptorFilename()
@@ -95,7 +93,7 @@ public abstract class AbstractESBMojo
 
     /**
      * Get the type of the artifact.
-     *
+     * 
      * @return The type of the generated artifact.
      */
     public String getArtifactType()

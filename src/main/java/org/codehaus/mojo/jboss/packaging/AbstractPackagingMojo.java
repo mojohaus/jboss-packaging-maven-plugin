@@ -47,9 +47,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Abstract super class for all the packaging mojos.  This class contains
- * the logic for actually building the packaging types.
- * 
+ * Abstract super class for all the packaging mojos. This class contains the logic for actually building the packaging
+ * types.
  */
 public abstract class AbstractPackagingMojo
     extends AbstractMojo
@@ -57,7 +56,7 @@ public abstract class AbstractPackagingMojo
 
     /**
      * The maven project.
-     *
+     * 
      * @parameter default-value="${project}"
      * @readonly
      */
@@ -65,14 +64,14 @@ public abstract class AbstractPackagingMojo
 
     /**
      * The directory for the generated packaging.
-     *
+     * 
      * @parameter default-value="${project.build.directory}"
      */
     private File outputDirectory;
 
     /**
      * The directory containing generated classes.
-     *
+     * 
      * @parameter default-value="${project.build.outputDirectory}"
      * @readonly
      */
@@ -80,95 +79,94 @@ public abstract class AbstractPackagingMojo
 
     /**
      * The directory where the JBoss packaging is built.
-     *
+     * 
      * @parameter default-value="${project.build.directory}/${project.build.finalName}"
      */
     private File packagingDirectory;
 
     /**
-     * The location of the jboss deployment descriptor file (e.g.,
-     * jboss-service.xml, jboss-spring.xml, etc). If it is present in the
-     * META-INF directory in src/main/resources with that name then it will
-     * automatically be included. Otherwise this parameter must be set.
-     *
+     * The location of the jboss deployment descriptor file (e.g., jboss-service.xml, jboss-spring.xml, etc). If it is
+     * present in the META-INF directory in src/main/resources with that name then it will automatically be included.
+     * Otherwise this parameter must be set.
+     * 
      * @parameter
      */
     protected File deploymentDescriptorFile;
 
     /**
      * The directory where to put the libs.
-     *
+     * 
      * @parameter default-value="${project.build.directory}/${project.build.finalName}/lib"
      */
     private File libDirectory;
 
     /**
      * The name of the generated packaging archive.
-     *
+     * 
      * @parameter default-value="${project.build.finalName}"
      */
     private String archiveName;
 
     /**
      * All artifacts are excluded
-     *
+     * 
      * @parameter expression="${excludeAll}" default-value="false"
      */
     private boolean excludeAll;
 
     /**
-     * Artifacts excluded from packaging within the generated archive file. Use
-     * artifactId:groupId in nested exclude tags.
-     *
+     * Artifacts excluded from packaging within the generated archive file. Use artifactId:groupId in nested exclude
+     * tags.
+     * 
      * @parameter
      */
     private Set excludes;
 
     /**
      * The Jar archiver.
-     *
+     * 
      * @parameter default-value="${component.org.codehaus.plexus.archiver.Archiver#jar}"
      */
     private JarArchiver jarArchiver;
 
     /**
      * The maven archive configuration to use.
-     *
+     * 
      * @parameter
      */
     private MavenArchiveConfiguration archive = new MavenArchiveConfiguration();
 
     /**
      * The manifest file for the archive.
-     *
+     * 
      * @parameter
      */
     private File manifest;
 
     /**
      * Classifier to add to the generated artifact. If given, the artifact will be an attachment instead.
-     *
+     * 
      * @parameter
      */
     private String classifier;
 
     /**
      * Whether this is the main artifact of the current project.
-     *
+     * 
      * @parameter default-value="true"
      */
     private boolean primaryArtifact;
 
     /**
      * The project helper.
-     *
+     * 
      * @component
      */
     private MavenProjectHelper projectHelper;
 
     /**
      * The artifact handler manager.
-     *
+     * 
      * @component
      */
     private ArtifactHandlerManager artifactHandlerManager;
@@ -190,28 +188,24 @@ public abstract class AbstractPackagingMojo
     }
 
     /**
-     * Get the name of the deployment descriptor file.
-     *
-     * Sublcasses must override this method and provide the proper name for
-     * their type of archive packaging
-     *
+     * Get the name of the deployment descriptor file. Sublcasses must override this method and provide the proper name
+     * for their type of archive packaging
+     * 
      * @return deployment descriptor file name, sans path
      */
     public abstract String getDeploymentDescriptorFilename();
 
     /**
      * Get the type of the artifact.
-     *
+     * 
      * @return The type of the generated artifact.
      */
     public abstract String getArtifactType();
 
     /**
-     * If no deployment descriptor filenames are found, check for
-     * the existence of alternates before failing.
-     *
-     * Subclasses are not required to override this method.
-     *
+     * If no deployment descriptor filenames are found, check for the existence of alternates before failing. Subclasses
+     * are not required to override this method.
+     * 
      * @return alternate deployment descriptor filenames
      */
     public String[] getAlternateDeploymentDescriptorFilenames()
@@ -237,19 +231,17 @@ public abstract class AbstractPackagingMojo
         buildExplodedPackaging( Collections.EMPTY_SET );
     }
 
-
     /**
      * Build the package in an exploded format.
      * 
      * @param excludes File patterns to exclude from the packaging.
-     * 
      * @throws MojoExecutionException if an error occurred
      * @throws MojoFailureException if an error occurred
      */
     public void buildExplodedPackaging( Set excludes )
         throws MojoExecutionException, MojoFailureException
     {
-        getLog().info( "Exploding JBoss packaging..." );
+        getLog().info( "Assembling JBoss packaging " + project.getArtifactId() + " in " + packagingDirectory );
 
         if ( excludes == null )
         {
@@ -260,7 +252,6 @@ public abstract class AbstractPackagingMojo
         libDirectory.mkdirs();
         try
         {
-            getLog().info( "Assembling JBoss packaging " + project.getArtifactId() + " in " + packagingDirectory );
 
             if ( classesDirectory.exists() && ( !classesDirectory.equals( packagingDirectory ) ) )
             {
@@ -271,10 +262,7 @@ public abstract class AbstractPackagingMojo
             File packagingFileTarget = new File( packagingFileTargetParent, getDeploymentDescriptorFilename() );
             if ( !packagingFileTarget.exists() )
             {
-                if ( !packagingFileTargetParent.exists() )
-                {
-                    packagingFileTargetParent.mkdirs();
-                }
+                packagingFileTargetParent.mkdirs();
 
                 if ( deploymentDescriptorFile == null || !deploymentDescriptorFile.exists() )
                 {
@@ -309,9 +297,9 @@ public abstract class AbstractPackagingMojo
             List rejects = new ArrayList();
             final Set includedArtifacts = new HashSet();
             final ScopeArtifactFilter filter = new ScopeArtifactFilter( Artifact.SCOPE_RUNTIME );
-            getLog().info( "" );
-            getLog().info( "    Including artifacts: " );
-            getLog().info( "    -------------------" );
+            getLog().debug( "" );
+            getLog().debug( "    Including artifacts: " );
+            getLog().debug( "    -------------------" );
             for ( Iterator iter = artifacts.iterator(); iter.hasNext(); )
             {
                 Artifact artifact = (Artifact) iter.next();
@@ -319,16 +307,16 @@ public abstract class AbstractPackagingMojo
                 {
                     String descriptor = artifact.getGroupId() + ":" + artifact.getArtifactId();
 
-                    if ( !excludeAll && artifact.getArtifactHandler().isAddedToClasspath() && !excludes.contains(
-                        descriptor ) )
+                    if ( !excludeAll && artifact.getArtifactHandler().isAddedToClasspath() &&
+                        !excludes.contains( descriptor ) )
                     {
-                        getLog().info( "        o " + descriptor );
+                        getLog().debug( "        o " + descriptor );
 
                         String name = getArtifactName( artifact );
                         if ( !includedArtifacts.add( name ) )
                         {
                             name = artifact.getGroupId() + "-" + name;
-                            getLog().debug( "Duplicate artifact discovered, using full name: " + name );
+                            getLog().info( "Duplicate artifact discovered, using full name: " + name );
                         }
 
                         FileUtils.copyFile( artifact.getFile(), new File( libDirectory, name ) );
@@ -342,19 +330,20 @@ public abstract class AbstractPackagingMojo
 
             if ( !excludes.isEmpty() )
             {
-                getLog().info( "" );
-                getLog().info( "    Excluded artifacts: " );
-                getLog().info( "    ------------------" );
+                getLog().debug( "" );
+                getLog().debug( "    Excluded artifacts: " );
+                getLog().debug( "    ------------------" );
                 for ( int ii = 0; ii < rejects.size(); ii++ )
                 {
-                    getLog().info( "        o " + rejects.get( ii ) );
+                    getLog().debug( "        o " + rejects.get( ii ) );
                 }
             }
             else
             {
-                getLog().info( "No artifacts have been excluded." );
+                getLog().debug( "No artifacts have been excluded." );
             }
-            getLog().info( "" );
+            
+            getLog().debug( "" );
 
             buildSpecificPackaging( excludes );
         }
@@ -366,11 +355,11 @@ public abstract class AbstractPackagingMojo
 
     /**
      * Perform any packaging specific to this type.
-     *
+     * 
      * @param excludes The exclude list.
      * @throws MojoExecutionException For plugin failures.
-     * @throws MojoFailureException   For unexpected plugin failures.
-     * @throws IOException            For exceptions during IO operations.
+     * @throws MojoFailureException For unexpected plugin failures.
+     * @throws IOException For exceptions during IO operations.
      */
     protected void buildSpecificPackaging( final Set excludes )
         throws MojoExecutionException, MojoFailureException, IOException
@@ -378,7 +367,6 @@ public abstract class AbstractPackagingMojo
     }
 
     /**
-     * 
      * @return The name of the archive
      */
     public String getArchiveName()
@@ -388,7 +376,7 @@ public abstract class AbstractPackagingMojo
 
     /**
      * Generates the packaged archive.
-     *
+     * 
      * @throws IOException if there is a problem
      * @throws ArchiverException if there is a problem
      * @throws ManifestException if there is a problem
@@ -410,7 +398,7 @@ public abstract class AbstractPackagingMojo
         buildExplodedPackaging( excludes );
 
         // generate archive file
-        getLog().info( "Generating JBoss packaging " + archiveFile.getAbsolutePath() );
+        getLog().debug( "Generating JBoss packaging " + archiveFile.getAbsolutePath() );
         MavenArchiver archiver = new MavenArchiver();
         archiver.setArchiver( jarArchiver );
         archiver.setOutputFile( archiveFile );
@@ -436,12 +424,11 @@ public abstract class AbstractPackagingMojo
 
     /**
      * Calculate the name of the archive file.
-     *
-     * @param outputDirectory The output directory.
-     * @param archiveName     The name of the artifact archive.
-     * @param classifier      The classifier of the artifact.
-     * @param extension       The artifact archive extension.
      * 
+     * @param outputDirectory The output directory.
+     * @param archiveName The name of the artifact archive.
+     * @param classifier The classifier of the artifact.
+     * @param extension The artifact archive extension.
      * @return The archive file.
      */
     private static File calculateFile( final File outputDirectory, final String archiveName, final String classifier,
@@ -461,7 +448,7 @@ public abstract class AbstractPackagingMojo
 
     /**
      * Get the name of the artifact.
-     *
+     * 
      * @param artifact The current artifact.
      * @return The name of the artifact.
      */
@@ -472,13 +459,15 @@ public abstract class AbstractPackagingMojo
 
         if ( StringUtils.isEmpty( classifier ) )
         {
-            artifactName = artifact.getArtifactId() + '-' + artifact.getVersion() + '.'
-                + artifact.getArtifactHandler().getExtension();
+            artifactName =
+                artifact.getArtifactId() + '-' + artifact.getVersion() + '.' +
+                    artifact.getArtifactHandler().getExtension();
         }
         else
         {
-            artifactName = artifact.getArtifactId() + '-' + artifact.getVersion() + '-' + classifier + '.'
-                + artifact.getArtifactHandler().getExtension();
+            artifactName =
+                artifact.getArtifactId() + '-' + artifact.getVersion() + '-' + classifier + '.' +
+                    artifact.getArtifactHandler().getExtension();
         }
         return artifactName;
     }
