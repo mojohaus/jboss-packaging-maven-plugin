@@ -58,8 +58,7 @@ public abstract class AbstractPackagingMojo
     /**
      * The maven project.
      *
-     * @parameter expression="${project}"
-     * @required
+     * @parameter default-value="${project}"
      * @readonly
      */
     private MavenProject project;
@@ -67,16 +66,14 @@ public abstract class AbstractPackagingMojo
     /**
      * The directory for the generated packaging.
      *
-     * @parameter expression="${project.build.directory}"
-     * @required
+     * @parameter default-value="${project.build.directory}"
      */
     private File outputDirectory;
 
     /**
      * The directory containing generated classes.
      *
-     * @parameter expression="${project.build.outputDirectory}"
-     * @required
+     * @parameter default-value="${project.build.outputDirectory}"
      * @readonly
      */
     private File classesDirectory;
@@ -84,8 +81,7 @@ public abstract class AbstractPackagingMojo
     /**
      * The directory where the JBoss packaging is built.
      *
-     * @parameter expression="${project.build.directory}/${project.build.finalName}"
-     * @required
+     * @parameter default-value="${project.build.directory}/${project.build.finalName}"
      */
     private File packagingDirectory;
 
@@ -102,16 +98,14 @@ public abstract class AbstractPackagingMojo
     /**
      * The directory where to put the libs.
      *
-     * @parameter expression="${project.build.directory}/${project.build.finalName}/lib"
-     * @required
+     * @parameter default-value="${project.build.directory}/${project.build.finalName}/lib"
      */
     private File libDirectory;
 
     /**
      * The name of the generated packaging archive.
      *
-     * @parameter expression="${project.build.finalName}"
-     * @required
+     * @parameter default-value="${project.build.finalName}"
      */
     private String archiveName;
 
@@ -133,8 +127,7 @@ public abstract class AbstractPackagingMojo
     /**
      * The Jar archiver.
      *
-     * @parameter expression="${component.org.codehaus.plexus.archiver.Archiver#jar}"
-     * @required
+     * @parameter default-value="${component.org.codehaus.plexus.archiver.Archiver#jar}"
      */
     private JarArchiver jarArchiver;
 
@@ -160,7 +153,7 @@ public abstract class AbstractPackagingMojo
     private String classifier;
 
     /**
-     * Whether this is the main artifact being constructed.
+     * Whether this is the main artifact of the current project.
      *
      * @parameter default-value="true"
      */
@@ -214,7 +207,7 @@ public abstract class AbstractPackagingMojo
     public abstract String getArtifactType();
 
     /**
-     * If no deployment descriptor filesnames are found, check for
+     * If no deployment descriptor filenames are found, check for
      * the existence of alternates before failing.
      *
      * Subclasses are not required to override this method.
@@ -223,7 +216,7 @@ public abstract class AbstractPackagingMojo
      */
     public String[] getAlternateDeploymentDescriptorFilenames()
     {
-        return null;
+        return new String[0];
     }
 
     /**
@@ -290,19 +283,16 @@ public abstract class AbstractPackagingMojo
                     buffer.append( getDeploymentDescriptorFilename() );
 
                     String[] alternateDescriptorFilenames = getAlternateDeploymentDescriptorFilenames();
-                    if ( alternateDescriptorFilenames != null )
+                    for ( int i = 0; i < alternateDescriptorFilenames.length; i++ )
                     {
-                        for ( int i = 0; i < alternateDescriptorFilenames.length; i++ )
-                        {
-                            buffer.append( ", " );
-                            buffer.append( alternateDescriptorFilenames[i] );
+                        buffer.append( ", " );
+                        buffer.append( alternateDescriptorFilenames[i] );
 
-                            deploymentDescriptorFile =
-                                new File( packagingFileTargetParent, alternateDescriptorFilenames[i] );
-                            if ( deploymentDescriptorFile != null && deploymentDescriptorFile.exists() )
-                            {
-                                break;
-                            }
+                        deploymentDescriptorFile =
+                            new File( packagingFileTargetParent, alternateDescriptorFilenames[i] );
+                        if ( deploymentDescriptorFile != null && deploymentDescriptorFile.exists() )
+                        {
+                            break;
                         }
                     }
 
