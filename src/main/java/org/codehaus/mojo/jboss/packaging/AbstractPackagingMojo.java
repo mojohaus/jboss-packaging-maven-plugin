@@ -172,9 +172,9 @@ public abstract class AbstractPackagingMojo
     private ArtifactHandlerManager artifactHandlerManager;
 
     /**
-     * Whether to remove the version numbers from the filenames of the included dependencies.
-     * By default the included dependencies will have the format [artifactId]-[version]-[classifier].[type]
-     * If this parameter is set to true, the jar name will be in the format [artifactId]-[classifier].[type]
+     * Whether to remove the version numbers from the filenames of the included dependencies. By default the included
+     * dependencies will have the format [artifactId]-[version]-[classifier].[type] If this parameter is set to true,
+     * the jar name will be in the format [artifactId]-[classifier].[type]
      * 
      * @parameter default-value="false"
      */
@@ -259,106 +259,129 @@ public abstract class AbstractPackagingMojo
 
         packagingDirectory.mkdirs();
         libDirectory.mkdirs();
-        try
-        {
 
-            if ( classesDirectory.exists() && ( !classesDirectory.equals( packagingDirectory ) ) )
+        if ( classesDirectory.exists() && ( !classesDirectory.equals( packagingDirectory ) ) )
+        {
+            try
             {
                 FileUtils.copyDirectoryStructure( classesDirectory, packagingDirectory );
             }
-
-            File packagingFileTargetParent = new File( packagingDirectory, "META-INF" );
-            File packagingFileTarget = new File( packagingFileTargetParent, getDeploymentDescriptorFilename() );
-            if ( !packagingFileTarget.exists() )
+            catch ( IOException e )
             {
-                packagingFileTargetParent.mkdirs();
+                throw new MojoExecutionException( "Unable to copy classes directory", e );
+            }
+        }
+
+        File packagingFileTargetParent = new File( packagingDirectory, "META-INF" );
+        File packagingFileTarget = new File( packagingFileTargetParent, getDeploymentDescriptorFilename() );
+        if ( !packagingFileTarget.exists() )
+        {
+            packagingFileTargetParent.mkdirs();
+
+            if ( deploymentDescriptorFile == null || !deploymentDescriptorFile.exists() )
+            {
+                // Check alternates list
+                StringBuffer buffer = new StringBuffer();
+                buffer.append( getDeploymentDescriptorFilename() );
+
+                String[] alternateDescriptorFilenames = getAlternateDeploymentDescriptorFilenames();
+                for ( int i = 0; i < alternateDescriptorFilenames.length; i++ )
+                {
+                    buffer.append( ", " );
+                    buffer.append( alternateDescriptorFilenames[i] );
+
+                    deploymentDescriptorFile = new File( packagingFileTargetParent, alternateDescriptorFilenames[i] );
+                    if ( deploymentDescriptorFile != null && deploymentDescriptorFile.exists() )
+                    {
+                        break;
+                    }
+                }
 
                 if ( deploymentDescriptorFile == null || !deploymentDescriptorFile.exists() )
                 {
-                    // Check alternates list
-                    StringBuffer buffer = new StringBuffer();
-                    buffer.append( getDeploymentDescriptorFilename() );
-
-                    String[] alternateDescriptorFilenames = getAlternateDeploymentDescriptorFilenames();
-                    for ( int i = 0; i < alternateDescriptorFilenames.length; i++ )
-                    {
-                        buffer.append( ", " );
-                        buffer.append( alternateDescriptorFilenames[i] );
-
-                        deploymentDescriptorFile =
-                            new File( packagingFileTargetParent, alternateDescriptorFilenames[i] );
-                        if ( deploymentDescriptorFile != null && deploymentDescriptorFile.exists() )
-                        {
-                            break;
-                        }
-                    }
-
-                    if ( deploymentDescriptorFile == null || !deploymentDescriptorFile.exists() )
-                    {
-                        throw new MojoExecutionException( "Could not find descriptor files: " + buffer.toString() );
-                    }
+                    throw new MojoExecutionException( "Could not find descriptor files: " + buffer.toString() );
                 }
+            }
 
+            try
+            {
                 FileUtils.copyFile( deploymentDescriptorFile, packagingFileTarget );
             }
-
-            Set artifacts = project.getArtifacts();
-            List rejects = new ArrayList();
-            final Set includedArtifacts = new HashSet();
-            final ScopeArtifactFilter filter = new ScopeArtifactFilter( Artifact.SCOPE_RUNTIME );
-            getLog().debug( "" );
-            getLog().debug( "    Including artifacts: " );
-            getLog().debug( "    -------------------" );
-            for ( Iterator iter = artifacts.iterator(); iter.hasNext(); )
+            catch ( IOException e )
             {
-                Artifact artifact = (Artifact) iter.next();
-                if ( !artifact.isOptional() && filter.include( artifact ) )
+                throw new MojoExecutionException( "Could not copy deployment descriptor", e );
+            }
+        }
+
+        Set artifacts = project.getArtifacts();
+        List rejects = new ArrayList();
+        final Set includedArtifacts = new HashSet();
+        final ScopeArtifactFilter filter = new ScopeArtifactFilter( Artifact.SCOPE_RUNTIME );
+        getLog().debug( "" );
+        getLog().debug( "    Including artifacts: " );
+        getLog().debug( "    -------------------" );
+        for ( Iterator iter = artifacts.iterator(); iter.hasNext(); )
+        {
+            Artifact artifact = (Artifact) iter.next();
+            if ( !artifact.isOptional() && filter.include( artifact ) )
+            {
+                String descriptor = artifact.getGroupId() + ":" + artifact.getArtifactId();
+
+                if ( !excludeAll && artifact.getArtifactHandler().isAddedToClasspath() &&
+                    !excludes.contains( descriptor ) )
                 {
-                    String descriptor = artifact.getGroupId() + ":" + artifact.getArtifactId();
+                    getLog().debug( "        o " + descriptor );
 
-                    if ( !excludeAll && artifact.getArtifactHandler().isAddedToClasspath() &&
-                        !excludes.contains( descriptor ) )
+                    String name = getArtifactName( artifact );
+                    if ( !includedArtifacts.add( name ) )
                     {
-                        getLog().debug( "        o " + descriptor );
+                        name = artifact.getGroupId() + "-" + name;
+                        getLog().info( "Duplicate artifact discovered, using full name: " + name );
+                    }
 
-                        String name = getArtifactName( artifact );
-                        if ( !includedArtifacts.add( name ) )
-                        {
-                            name = artifact.getGroupId() + "-" + name;
-                            getLog().info( "Duplicate artifact discovered, using full name: " + name );
-                        }
-
+                    try
+                    {
                         FileUtils.copyFile( artifact.getFile(), new File( libDirectory, name ) );
                     }
-                    else
+                    catch ( IOException e )
                     {
-                        rejects.add( artifact );
+                        throw new MojoExecutionException( "Could not copy dependency", e );
                     }
                 }
-            }
-
-            if ( !excludes.isEmpty() )
-            {
-                getLog().debug( "" );
-                getLog().debug( "    Excluded artifacts: " );
-                getLog().debug( "    ------------------" );
-                for ( int ii = 0; ii < rejects.size(); ii++ )
+                else
                 {
-                    getLog().debug( "        o " + rejects.get( ii ) );
+                    rejects.add( artifact );
                 }
             }
-            else
-            {
-                getLog().debug( "No artifacts have been excluded." );
-            }
-
-            getLog().debug( "" );
-
-            buildSpecificPackaging( excludes );
         }
-        catch ( IOException e )
+
+        if ( !excludes.isEmpty() )
         {
-            throw new MojoExecutionException( "Could not explode JBoss packaging...", e );
+            getLog().debug( "" );
+            getLog().debug( "    Excluded artifacts: " );
+            getLog().debug( "    ------------------" );
+            for ( int ii = 0; ii < rejects.size(); ii++ )
+            {
+                getLog().debug( "        o " + rejects.get( ii ) );
+            }
+        }
+        else
+        {
+            getLog().debug( "No artifacts have been excluded." );
+        }
+
+        getLog().debug( "" );
+
+        buildSpecificPackaging( excludes );
+
+        if ( libDirectory.isDirectory() )
+        {
+            String[] files = libDirectory.list();
+
+            if ( files.length == 0 )
+            {
+                libDirectory.delete();
+            }
         }
     }
 
@@ -371,7 +394,7 @@ public abstract class AbstractPackagingMojo
      * @throws IOException For exceptions during IO operations.
      */
     protected void buildSpecificPackaging( final Set excludes )
-        throws MojoExecutionException, MojoFailureException, IOException
+        throws MojoExecutionException
     {
     }
 
@@ -464,19 +487,19 @@ public abstract class AbstractPackagingMojo
     private String getArtifactName( Artifact artifact )
     {
         String artifactName = artifact.getArtifactId();
-        
-        if ( ! this.removeDependencyVersions )
+
+        if ( !this.removeDependencyVersions )
         {
             artifactName += "-" + artifact.getVersion();
         }
-        
-        if ( ! StringUtils.isEmpty( artifact.getClassifier() ) )
+
+        if ( !StringUtils.isEmpty( artifact.getClassifier() ) )
         {
             artifactName += "-" + artifact.getClassifier();
         }
-        
+
         artifactName += "." + artifact.getArtifactHandler().getExtension();
-        
+
         return artifactName;
     }
 }
