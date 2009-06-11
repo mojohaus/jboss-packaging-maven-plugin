@@ -172,6 +172,15 @@ public abstract class AbstractPackagingMojo
     private ArtifactHandlerManager artifactHandlerManager;
 
     /**
+     * Whether to remove the version numbers from the filenames of the included dependencies.
+     * By default the included dependencies will have the format [artifactId]-[version]-[classifier].[type]
+     * If this parameter is set to true, the jar name will be in the format [artifactId]-[classifier].[type]
+     * 
+     * @parameter default-value="false"
+     */
+    private boolean removeDependencyVersions;
+
+    /**
      * @return the maven project
      */
     public MavenProject getProject()
@@ -342,7 +351,7 @@ public abstract class AbstractPackagingMojo
             {
                 getLog().debug( "No artifacts have been excluded." );
             }
-            
+
             getLog().debug( "" );
 
             buildSpecificPackaging( excludes );
@@ -452,23 +461,22 @@ public abstract class AbstractPackagingMojo
      * @param artifact The current artifact.
      * @return The name of the artifact.
      */
-    private static String getArtifactName( final Artifact artifact )
+    private String getArtifactName( Artifact artifact )
     {
-        final String artifactName;
-        final String classifier = artifact.getClassifier();
-
-        if ( StringUtils.isEmpty( classifier ) )
+        String artifactName = artifact.getArtifactId();
+        
+        if ( ! this.removeDependencyVersions )
         {
-            artifactName =
-                artifact.getArtifactId() + '-' + artifact.getVersion() + '.' +
-                    artifact.getArtifactHandler().getExtension();
+            artifactName += "-" + artifact.getVersion();
         }
-        else
+        
+        if ( ! StringUtils.isEmpty( artifact.getClassifier() ) )
         {
-            artifactName =
-                artifact.getArtifactId() + '-' + artifact.getVersion() + '-' + classifier + '.' +
-                    artifact.getArtifactHandler().getExtension();
+            artifactName += "-" + artifact.getClassifier();
         }
+        
+        artifactName += "." + artifact.getArtifactHandler().getExtension();
+        
         return artifactName;
     }
 }
