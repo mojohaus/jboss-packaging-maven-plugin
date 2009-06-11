@@ -29,9 +29,51 @@ import org.apache.maven.plugin.MojoExecutionException;
  * @requiresDependencyResolution runtime
  */
 public class HarMojo
-    extends AbstractHarPackagingMojo
+    extends AbstractPackagingMojo
 {
 
+    /**
+     * The artifact type.
+     */
+    private static final String ARTIFACT_TYPE = "jboss-har";
+
+    /**
+     * Set the version of jboss for which the archive is being generated. If jbossVersion is set to "5", the name of the
+     * deployment descriptor filename will be "jboss-hibernate.xml". Otherwise, the filename will be "jboss-service.xml"
+     * 
+     * @parameter default-value="4"
+     */
+    private String jbossVersion;
+
+    public String getDeploymentDescriptorFilename()
+    {
+        if ( jbossVersion != null && "5".compareTo( jbossVersion ) <= 0 )
+        {
+            return "jboss-hibernate.xml";
+        }
+        return "jboss-service.xml";
+    }
+
+    /**
+     * If the SAR default descriptor file does not exist, then we expect 'hibernate-service.xml' in its stead.
+     * 
+     * @return String array containing the name of the jboss hibernate deployment descriptor.
+     */
+    public String[] getAlternateDeploymentDescriptorFilenames()
+    {
+        return new String[] { "hibernate-service.xml" };
+    }
+
+    /**
+     * Get the type of the artifact.
+     * 
+     * @return The type of the generated artifact.
+     */
+    public String getArtifactType()
+    {
+        return ARTIFACT_TYPE;
+    }
+    
     /**
      * Executes the HarMojo on the current project.
      * 
