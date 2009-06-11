@@ -21,6 +21,8 @@ package org.codehaus.mojo.jboss.packaging;
 
 /**
  * Abstract super class for building a deployable JBoss Hibernate Archive.
+ * 
+ * @deprecated Extend AbstractPackaging Mojo directly
  */
 public abstract class AbstractHarPackagingMojo
     extends AbstractPackagingMojo

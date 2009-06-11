@@ -29,9 +29,33 @@ import org.apache.maven.plugin.MojoExecutionException;
  * @requiresDependencyResolution runtime
  */
 public class SarMojo
-    extends AbstractSarPackagingMojo
+    extends AbstractPackagingMojo
 {
 
+    /**
+     * The artifact type.
+     */
+    private static final String ARTIFACT_TYPE = "jboss-sar";
+
+    /**
+     * Get the deployment descriptor filename.
+     * 
+     * @return The filename of the deployment descriptor (jboss-service.xml).
+     */
+    public String getDeploymentDescriptorFilename()
+    {
+        return "jboss-service.xml";
+    }
+
+    /**
+     * Get the type of the artifact.
+     * 
+     * @return The type of the generated artifact.
+     */
+    public String getArtifactType()
+    {
+        return ARTIFACT_TYPE;
+    }
     /**
      * Executes the SarMojo on the current project.
      * 
@@ -40,13 +64,14 @@ public class SarMojo
     public void execute()
         throws MojoExecutionException
     {
-        try
+
+        if ( isExploded() )
         {
-            performPackaging();
+            buildExplodedPackaging();
         }
-        catch ( Exception e )
+        else 
         {
-            throw new MojoExecutionException( "Error assembling archive", e );
+            performPackaging();            
         }
     }
 

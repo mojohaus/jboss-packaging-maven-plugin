@@ -29,9 +29,33 @@ import org.apache.maven.plugin.MojoExecutionException;
  * @requiresDependencyResolution runtime
  */
 public class SpringMojo
-    extends AbstractSpringPackagingMojo
+    extends AbstractPackagingMojo
 {
 
+    /**
+     * The artifact type.
+     */
+    private static final String ARTIFACT_TYPE = "jboss-spring";
+
+    /**
+     * Return the name of the jboss-spring deployment descriptor (jboss-spring.xml).
+     * 
+     * @return Filename of the jboss spring deployment descriptor
+     */
+    public String getDeploymentDescriptorFilename()
+    {
+        return "jboss-spring.xml";
+    }
+
+    /**
+     * Get the type of the artifact.
+     * 
+     * @return The type of the generated artifact.
+     */
+    public String getArtifactType()
+    {
+        return ARTIFACT_TYPE;
+    }
     /**
      * Executes the SpringMojo on the current project.
      * 

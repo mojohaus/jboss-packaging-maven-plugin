@@ -19,8 +19,13 @@ package org.codehaus.mojo.jboss.packaging;
  * under the License.
  */
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Set;
+
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.codehaus.plexus.util.FileUtils;
 
 /**
  * Builds a JBoss ESB Archive.
@@ -31,8 +36,81 @@ import org.apache.maven.plugin.MojoFailureException;
  * @requiresDependencyResolution runtime
  */
 public class ESBMojo
-    extends AbstractESBMojo
+    extends AbstractPackagingMojo
 {
+    /**
+     * The name of the meta-inf directory.
+     */
+    private static final String META_INF = "META-INF";
+
+    /**
+     * The location of the jboss-esb.xml file.
+     */
+    private static final String JBOSS_ESB_XML = "jboss-esb.xml";
+
+    /**
+     * The location of the deployment.xml file.
+     */
+    private static final String DEPLOYMENT_XML = "deployment.xml";
+
+    /**
+     * The artifact type.
+     */
+    private static final String ARTIFACT_TYPE = "jboss-esb";
+
+    /**
+     * Override the deployment xml file
+     * 
+     * @parameter expression="${maven.esb.deployment.xml}"
+     */
+    private File deploymentXml;
+
+    /**
+     * Perform any packaging specific to this type.
+     * 
+     * @param excludes The exclude list.
+     * @throws MojoExecutionException For plugin failures.
+     * @throws MojoFailureException For unexpected plugin failures.
+     * @throws IOException For exceptions during IO operations.
+     */
+    protected void buildSpecificPackaging( final Set excludes )
+        throws MojoExecutionException
+    {
+        final File metainfDir = new File( getOutputDirectory(), META_INF );
+        if ( deploymentXml != null )
+        {
+            try
+            {
+                FileUtils.copyFile( deploymentXml, new File( metainfDir, DEPLOYMENT_XML ) );
+            }
+            catch ( IOException e )
+            {
+                throw new MojoExecutionException( "Unable to copy deployment file ", e );
+            }
+        }
+    }
+
+    /**
+     * Get the name of the deployment descriptor file. Sublcasses must override this method and provide the proper name
+     * for their type of archive packaging
+     * 
+     * @return deployment descriptor file name, sans path
+     */
+    public String getDeploymentDescriptorFilename()
+    {
+        return JBOSS_ESB_XML;
+    }
+
+    /**
+     * Get the type of the artifact.
+     * 
+     * @return The type of the generated artifact.
+     */
+    public String getArtifactType()
+    {
+        return ARTIFACT_TYPE;
+    }
+
     /**
      * Execute the mojo in the current project.
      * 
@@ -40,15 +118,15 @@ public class ESBMojo
      * @throws MojoFailureException For unexpected plugin failures.
      */
     public void execute()
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
-        try
+        if ( isExploded() )
+        {
+            buildExplodedPackaging();
+        }
+        else
         {
             performPackaging();
-        }
-        catch ( final Exception ex )
-        {
-            throw new MojoExecutionException( "Error assembling archive", ex );
         }
     }
 }

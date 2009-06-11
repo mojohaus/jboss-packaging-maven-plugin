@@ -21,6 +21,8 @@ package org.codehaus.mojo.jboss.packaging;
 
 /**
  * Abstract super clas for building a deployable JBoss Service Archive.
+ * 
+ * @deprecated Extend AbstractPackaging Mojo directly
  */
 public abstract class AbstractSarPackagingMojo
     extends AbstractPackagingMojo

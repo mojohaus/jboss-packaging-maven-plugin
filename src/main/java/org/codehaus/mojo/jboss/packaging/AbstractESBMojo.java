@@ -31,6 +31,7 @@ import java.util.Set;
  * Base class for building a JBoss ESB archive.
  * 
  * @author <a href="mailto:kevin.conner@jboss.com">Kevin Conner</a>
+ * @deprecated Extend AbstractPackaging Mojo directly
  */
 public abstract class AbstractESBMojo
     extends AbstractPackagingMojo
@@ -71,12 +72,19 @@ public abstract class AbstractESBMojo
      * @throws IOException For exceptions during IO operations.
      */
     protected void buildSpecificPackaging( final Set excludes )
-        throws MojoExecutionException, MojoFailureException, IOException
+        throws MojoExecutionException
     {
         final File metainfDir = new File( getOutputDirectory(), META_INF );
         if ( deploymentXml != null )
         {
-            FileUtils.copyFile( deploymentXml, new File( metainfDir, DEPLOYMENT_XML ) );
+            try
+            {
+                FileUtils.copyFile( deploymentXml, new File( metainfDir, DEPLOYMENT_XML ) );
+            }
+            catch ( IOException e )
+            {
+                throw new MojoExecutionException( "Unable to copy deployment file. ", e );
+            }
         }
     }
 

@@ -40,13 +40,13 @@ public class HarMojo
     public void execute()
         throws MojoExecutionException
     {
-        try
+        if ( isExploded() )
         {
-            performPackaging();
+            buildExplodedPackaging();
         }
-        catch ( Exception e )
+        else 
         {
-            throw new MojoExecutionException( "Error assembling archive", e );
+            performPackaging();            
         }
     }
 

@@ -28,6 +28,7 @@ import org.apache.maven.plugin.MojoFailureException;
  * @goal sar-exploded
  * @phase package
  * @requiresDependencyResolution runtime
+ * @deprecated Use sar goal with "exploded" parameter
  */
 public class SarExplodedMojo
     extends AbstractSarPackagingMojo

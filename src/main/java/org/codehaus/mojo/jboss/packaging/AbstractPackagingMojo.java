@@ -22,7 +22,6 @@ package org.codehaus.mojo.jboss.packaging;
 import org.apache.maven.archiver.MavenArchiveConfiguration;
 import org.apache.maven.archiver.MavenArchiver;
 import org.apache.maven.artifact.Artifact;
-import org.apache.maven.artifact.DependencyResolutionRequiredException;
 import org.apache.maven.artifact.handler.ArtifactHandler;
 import org.apache.maven.artifact.handler.manager.ArtifactHandlerManager;
 import org.apache.maven.artifact.resolver.filter.ScopeArtifactFilter;
@@ -31,9 +30,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.project.MavenProject;
 import org.apache.maven.project.MavenProjectHelper;
-import org.codehaus.plexus.archiver.ArchiverException;
 import org.codehaus.plexus.archiver.jar.JarArchiver;
-import org.codehaus.plexus.archiver.jar.ManifestException;
 import org.codehaus.plexus.util.FileUtils;
 import org.codehaus.plexus.util.StringUtils;
 
@@ -181,6 +178,23 @@ public abstract class AbstractPackagingMojo
     private boolean removeDependencyVersions;
 
     /**
+     * Whether to generate only the exploded sar format. By default both an exploded directory and a zipped file will be
+     * created. If set to "true" only the exploded directory will be created.
+     * 
+     * @parameter default-value="false"
+     */
+    private boolean exploded;
+
+    /**
+     * 
+     * @return Whether only the exploded format should be created.
+     */
+    public boolean isExploded()
+    {
+        return exploded;
+    }
+    
+    /**
      * @return the maven project
      */
     public MavenProject getProject()
@@ -235,7 +249,7 @@ public abstract class AbstractPackagingMojo
      * @throws MojoFailureException if an error occurred
      */
     public void buildExplodedPackaging()
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
         buildExplodedPackaging( Collections.EMPTY_SET );
     }
@@ -248,7 +262,7 @@ public abstract class AbstractPackagingMojo
      * @throws MojoFailureException if an error occurred
      */
     public void buildExplodedPackaging( Set excludes )
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
         getLog().info( "Assembling JBoss packaging " + project.getArtifactId() + " in " + packagingDirectory );
 
@@ -409,21 +423,15 @@ public abstract class AbstractPackagingMojo
     /**
      * Generates the packaged archive.
      * 
-     * @throws IOException if there is a problem
-     * @throws ArchiverException if there is a problem
-     * @throws ManifestException if there is a problem
-     * @throws DependencyResolutionRequiredException if there is a problem
      * @throws MojoExecutionException if there is a problem
-     * @throws MojoFailureException if there is a problem
      */
     protected void performPackaging()
-        throws IOException, ArchiverException, ManifestException, DependencyResolutionRequiredException,
-        MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
 
-        final ArtifactHandler artifactHandler = artifactHandlerManager.getArtifactHandler( getArtifactType() );
-        final String extension = artifactHandler.getExtension();
-        final String type = getArtifactType();
+        ArtifactHandler artifactHandler = artifactHandlerManager.getArtifactHandler( getArtifactType() );
+        String extension = artifactHandler.getExtension();
+        String type = getArtifactType();
 
         final File archiveFile = calculateFile( outputDirectory, archiveName, classifier, extension );
 
@@ -434,21 +442,27 @@ public abstract class AbstractPackagingMojo
         MavenArchiver archiver = new MavenArchiver();
         archiver.setArchiver( jarArchiver );
         archiver.setOutputFile( archiveFile );
-        jarArchiver.addDirectory( getPackagingDirectory() );
-        if ( manifest != null )
+        try
         {
-            jarArchiver.setManifest( manifest );
+            jarArchiver.addDirectory( getPackagingDirectory() );
+            if ( manifest != null )
+            {
+                jarArchiver.setManifest( manifest );
+            }
+            archiver.createArchive( getProject(), archive );
+        }
+        catch ( Exception e )
+        {
+            throw new MojoExecutionException( "Problem generating archive file.", e);
         }
 
-        // create archive
-        archiver.createArchive( getProject(), archive );
         if ( classifier != null )
         {
             projectHelper.attachArtifact( project, type, classifier, archiveFile );
         }
         else if ( primaryArtifact )
         {
-            final Artifact artifact = project.getArtifact();
+            Artifact artifact = project.getArtifact();
             artifact.setFile( archiveFile );
             artifact.setArtifactHandler( artifactHandler );
         }
