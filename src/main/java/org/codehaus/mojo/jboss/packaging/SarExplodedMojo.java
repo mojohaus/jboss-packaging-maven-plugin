@@ -31,7 +31,7 @@ import org.apache.maven.plugin.MojoFailureException;
  * @deprecated Use sar goal with "exploded" parameter
  */
 public class SarExplodedMojo
-    extends AbstractSarPackagingMojo
+    extends SarMojo
 {
 
     /**
@@ -41,7 +41,7 @@ public class SarExplodedMojo
      * @throws MojoFailureException if an error occurred
      */
     public void execute()
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
         buildExplodedPackaging();
     }

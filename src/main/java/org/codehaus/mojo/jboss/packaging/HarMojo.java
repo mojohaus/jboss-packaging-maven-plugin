@@ -1,5 +1,7 @@
 package org.codehaus.mojo.jboss.packaging;
 
+import java.io.File;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,10 +21,13 @@ package org.codehaus.mojo.jboss.packaging;
  * under the License.
  */
 
-import org.apache.maven.plugin.MojoExecutionException;
-
 /**
- * Build a deployable JBoss Hibernate Archive.
+ * Build a deployable JBoss Hibernate Archive. Note that in versions of jboss prior to 4.0.3 the deployment descriptor
+ * for a HAR was "hibernate-service.xml". In 4.0.3 this changed to use "jboss-service.xml" similar to the SAR format. In
+ * JBoss 5 and above, the HAR deployment descriptor can be any file with a name that matches the pattern
+ * "*-hibernate.xml". If the parameter "deploymentDescriptorFile" is not set, this goal will first look for
+ * "jboss-service.xml", then "hibernate-service.xml" and if those are not found, it will search for a file ending with *
+ * "-hibernate.xml"
  * 
  * @goal har
  * @phase package
@@ -33,36 +38,17 @@ public class HarMojo
 {
 
     /**
+     * The name of the hibernate deployment descriptor file. If left blank, the goal will automatically search for
+     * "jboss-service.xml", "hibernate-service.xml", and "*-hibernate.xml" in that order.
+     * 
+     * @parameter
+     */
+    private File deploymentDescriptorFile;
+
+    /**
      * The artifact type.
      */
     private static final String ARTIFACT_TYPE = "jboss-har";
-
-    /**
-     * Set the version of jboss for which the archive is being generated. If jbossVersion is set to "5", the name of the
-     * deployment descriptor filename will be "jboss-hibernate.xml". Otherwise, the filename will be "jboss-service.xml"
-     * 
-     * @parameter default-value="4"
-     */
-    private String jbossVersion;
-
-    public String getDeploymentDescriptorFilename()
-    {
-        if ( jbossVersion != null && "5".compareTo( jbossVersion ) <= 0 )
-        {
-            return "jboss-hibernate.xml";
-        }
-        return "jboss-service.xml";
-    }
-
-    /**
-     * If the SAR default descriptor file does not exist, then we expect 'hibernate-service.xml' in its stead.
-     * 
-     * @return String array containing the name of the jboss hibernate deployment descriptor.
-     */
-    public String[] getAlternateDeploymentDescriptorFilenames()
-    {
-        return new String[] { "hibernate-service.xml" };
-    }
 
     /**
      * Get the type of the artifact.
@@ -73,23 +59,45 @@ public class HarMojo
     {
         return ARTIFACT_TYPE;
     }
-    
-    /**
-     * Executes the HarMojo on the current project.
-     * 
-     * @throws MojoExecutionException if an error occured while building the har
-     */
-    public void execute()
-        throws MojoExecutionException
+
+    public File getDeploymentDescriptor()
     {
-        if ( isExploded() )
+
+        if ( deploymentDescriptorFile != null )
         {
-            buildExplodedPackaging();
+            return deploymentDescriptorFile;
         }
-        else 
+
+        // Look for deployment descriptor in the standard places
+        File metaInf = new File( getProject().getBasedir(), "src/main/resources/META-INF" );
+
+        if ( !metaInf.exists() )
         {
-            performPackaging();            
+            return null;
         }
+
+        deploymentDescriptorFile = new File( metaInf, "jboss-service.xml" );
+        if ( deploymentDescriptorFile.exists() )
+        {
+            return deploymentDescriptorFile;
+        }
+
+        deploymentDescriptorFile = new File( metaInf, "hibernate-service.xml" );
+        if ( deploymentDescriptorFile.exists() )
+        {
+            return deploymentDescriptorFile;
+        }
+
+        // Look for "*-hibernate.xml" in META-INF
+        String[] files = metaInf.list();
+        for ( int i = 0; i < files.length; ++i )
+        {
+            if ( files[i].endsWith( "-hibernate.xml" ) )
+            {
+                return new File( metaInf, files[i] );
+            }
+        }
+        return null;
     }
 
 }

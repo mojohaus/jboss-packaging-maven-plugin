@@ -82,13 +82,12 @@ public abstract class AbstractPackagingMojo
     private File packagingDirectory;
 
     /**
-     * The location of the jboss deployment descriptor file (e.g., jboss-service.xml, jboss-spring.xml, etc). If it is
-     * present in the META-INF directory in src/main/resources with that name then it will automatically be included.
-     * Otherwise this parameter must be set.
+     * The filename for the output deployment descriptor.  By default the deployment descriptor will
+     * retain the same filename.
      * 
      * @parameter
      */
-    protected File deploymentDescriptorFile;
+    private String deploymentDescriptorDestName;
 
     /**
      * The directory where to put the libs.
@@ -112,8 +111,8 @@ public abstract class AbstractPackagingMojo
     private boolean excludeAll;
 
     /**
-     * Artifacts excluded from packaging within the generated archive file. Use artifactId:groupId in nested exclude
-     * tags.
+     * Dependency Artifacts excluded from packaging within the generated archive file. Use artifactId:groupId in nested
+     * exclude tags.
      * 
      * @parameter
      */
@@ -186,14 +185,13 @@ public abstract class AbstractPackagingMojo
     private boolean exploded;
 
     /**
-     * 
      * @return Whether only the exploded format should be created.
      */
     public boolean isExploded()
     {
         return exploded;
     }
-    
+
     /**
      * @return the maven project
      */
@@ -211,12 +209,12 @@ public abstract class AbstractPackagingMojo
     }
 
     /**
-     * Get the name of the deployment descriptor file. Sublcasses must override this method and provide the proper name
+     * Get the deployment descriptor file. Sublcasses may override this method to provide a different name
      * for their type of archive packaging
      * 
-     * @return deployment descriptor file name, sans path
+     * @return deployment descriptor File
      */
-    public abstract String getDeploymentDescriptorFilename();
+    public abstract File getDeploymentDescriptor();
 
     /**
      * Get the type of the artifact.
@@ -224,17 +222,6 @@ public abstract class AbstractPackagingMojo
      * @return The type of the generated artifact.
      */
     public abstract String getArtifactType();
-
-    /**
-     * If no deployment descriptor filenames are found, check for the existence of alternates before failing. Subclasses
-     * are not required to override this method.
-     * 
-     * @return alternate deployment descriptor filenames
-     */
-    public String[] getAlternateDeploymentDescriptorFilenames()
-    {
-        return new String[0];
-    }
 
     /**
      * @return The directory to write the archive
@@ -274,7 +261,7 @@ public abstract class AbstractPackagingMojo
         packagingDirectory.mkdirs();
         libDirectory.mkdirs();
 
-        if ( classesDirectory.exists() && ( !classesDirectory.equals( packagingDirectory ) ) )
+        if ( classesDirectory.exists() && !classesDirectory.equals( packagingDirectory ) )
         {
             try
             {
@@ -286,40 +273,27 @@ public abstract class AbstractPackagingMojo
             }
         }
 
-        File packagingFileTargetParent = new File( packagingDirectory, "META-INF" );
-        File packagingFileTarget = new File( packagingFileTargetParent, getDeploymentDescriptorFilename() );
-        if ( !packagingFileTarget.exists() )
+        File deploymentDescriptorFile = this.getDeploymentDescriptor();
+        if ( deploymentDescriptorFile == null || !deploymentDescriptorFile.exists() )
         {
-            packagingFileTargetParent.mkdirs();
+            throw new MojoExecutionException( "Could not find descriptor file: " + deploymentDescriptorFile );
+        }
 
-            if ( deploymentDescriptorFile == null || !deploymentDescriptorFile.exists() )
-            {
-                // Check alternates list
-                StringBuffer buffer = new StringBuffer();
-                buffer.append( getDeploymentDescriptorFilename() );
+        File packagingMetaInf = new File( packagingDirectory, "META-INF" );
+        String destName = this.getDeploymentDescriptorDestName();
+        if ( destName == null )
+        {
+            destName = deploymentDescriptorFile.getName();
+        }
+        File deploymentDescriptorTarget = new File( packagingMetaInf, destName );
 
-                String[] alternateDescriptorFilenames = getAlternateDeploymentDescriptorFilenames();
-                for ( int i = 0; i < alternateDescriptorFilenames.length; i++ )
-                {
-                    buffer.append( ", " );
-                    buffer.append( alternateDescriptorFilenames[i] );
-
-                    deploymentDescriptorFile = new File( packagingFileTargetParent, alternateDescriptorFilenames[i] );
-                    if ( deploymentDescriptorFile != null && deploymentDescriptorFile.exists() )
-                    {
-                        break;
-                    }
-                }
-
-                if ( deploymentDescriptorFile == null || !deploymentDescriptorFile.exists() )
-                {
-                    throw new MojoExecutionException( "Could not find descriptor files: " + buffer.toString() );
-                }
-            }
-
+        if ( !deploymentDescriptorTarget.exists() )
+        {
+            deploymentDescriptorTarget.getParentFile().mkdirs();
+            
             try
             {
-                FileUtils.copyFile( deploymentDescriptorFile, packagingFileTarget );
+                FileUtils.copyFile( deploymentDescriptorFile, deploymentDescriptorTarget );
             }
             catch ( IOException e )
             {
@@ -453,7 +427,7 @@ public abstract class AbstractPackagingMojo
         }
         catch ( Exception e )
         {
-            throw new MojoExecutionException( "Problem generating archive file.", e);
+            throw new MojoExecutionException( "Problem generating archive file.", e );
         }
 
         if ( classifier != null )
@@ -516,4 +490,30 @@ public abstract class AbstractPackagingMojo
 
         return artifactName;
     }
+    
+    public String getDeploymentDescriptorDestName()
+    {
+        return deploymentDescriptorDestName;
+    }
+    
+    /**
+     * Main execution for the goal.
+     * 
+     * @throws MojoExecutionException if an error occured while building the webapp
+     */
+    public void execute()
+        throws MojoExecutionException
+    {
+
+        if ( isExploded() )
+        {
+            buildExplodedPackaging();
+        }
+        else 
+        {
+            performPackaging();            
+        }
+    }
+    
+    
 }

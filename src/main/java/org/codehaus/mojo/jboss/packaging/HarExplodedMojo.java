@@ -31,7 +31,7 @@ import org.apache.maven.plugin.MojoFailureException;
  * @deprecated Use har goal with "exploded" parameter
  */
 public class HarExplodedMojo
-    extends AbstractHarPackagingMojo
+    extends HarMojo
 {
 
     /**
@@ -41,7 +41,7 @@ public class HarExplodedMojo
      * @throws MojoFailureException if an error occurred
      */
     public void execute()
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
         buildExplodedPackaging();
     }

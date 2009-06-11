@@ -1,5 +1,7 @@
 package org.codehaus.mojo.jboss.packaging;
 
+import java.io.File;
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -19,8 +21,6 @@ package org.codehaus.mojo.jboss.packaging;
  * under the License.
  */
 
-import org.apache.maven.plugin.MojoExecutionException;
-
 /**
  * Build a deployable JBoss Spring Archive.
  * 
@@ -33,6 +33,15 @@ public class SpringMojo
 {
 
     /**
+     * The location of the jboss deployment descriptor file (jboss-spring.xml). If it is present in
+     * src/main/resources/META-INF with that name then it will automatically be included. Otherwise this parameter must
+     * be set.
+     * 
+     * @parameter default-value="src/main/resources/META-INF/jboss-spring.xml"
+     */
+    private File deploymentDescriptorFile;
+
+    /**
      * The artifact type.
      */
     private static final String ARTIFACT_TYPE = "jboss-spring";
@@ -42,9 +51,9 @@ public class SpringMojo
      * 
      * @return Filename of the jboss spring deployment descriptor
      */
-    public String getDeploymentDescriptorFilename()
+    public File getDeploymentDescriptor()
     {
-        return "jboss-spring.xml";
+        return deploymentDescriptorFile;
     }
 
     /**
@@ -55,23 +64,6 @@ public class SpringMojo
     public String getArtifactType()
     {
         return ARTIFACT_TYPE;
-    }
-    /**
-     * Executes the SpringMojo on the current project.
-     * 
-     * @throws MojoExecutionException if an error occured while building the webapp
-     */
-    public void execute()
-        throws MojoExecutionException
-    {
-        try
-        {
-            performPackaging();
-        }
-        catch ( Exception e )
-        {
-            throw new MojoExecutionException( "Error assembling archive", e );
-        }
     }
 
 }

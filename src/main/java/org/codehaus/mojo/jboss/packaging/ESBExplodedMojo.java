@@ -32,7 +32,7 @@ import org.apache.maven.plugin.MojoFailureException;
  * @deprecated Use esb goal with "exploded" parameter
  */
 public class ESBExplodedMojo
-    extends AbstractESBMojo
+    extends ESBMojo
 {
     /**
      * Execute the mojo in the current project.
@@ -41,7 +41,7 @@ public class ESBExplodedMojo
      * @throws MojoFailureException For unexpected plugin failures.
      */
     public void execute()
-        throws MojoExecutionException, MojoFailureException
+        throws MojoExecutionException
     {
         buildExplodedPackaging();
     }

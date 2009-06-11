@@ -44,11 +44,6 @@ public class ESBMojo
     private static final String META_INF = "META-INF";
 
     /**
-     * The location of the jboss-esb.xml file.
-     */
-    private static final String JBOSS_ESB_XML = "jboss-esb.xml";
-
-    /**
      * The location of the deployment.xml file.
      */
     private static final String DEPLOYMENT_XML = "deployment.xml";
@@ -64,6 +59,14 @@ public class ESBMojo
      * @parameter expression="${maven.esb.deployment.xml}"
      */
     private File deploymentXml;
+
+    /**
+     * The location of the jboss deployment descriptor file (jboss-esb.xml) If it is present in
+     * src/main/resources/META-INF then it will automatically be included. Otherwise this parameter must be set.
+     * 
+     * @parameter default-value="src/main/resources/META-INF/jboss-esb.xml
+     */
+    private File deploymentDescriptorFile;
 
     /**
      * Perform any packaging specific to this type.
@@ -91,14 +94,12 @@ public class ESBMojo
     }
 
     /**
-     * Get the name of the deployment descriptor file. Sublcasses must override this method and provide the proper name
-     * for their type of archive packaging
      * 
      * @return deployment descriptor file name, sans path
      */
-    public String getDeploymentDescriptorFilename()
+    public File getDeploymentDescriptor()
     {
-        return JBOSS_ESB_XML;
+        return this.deploymentDescriptorFile;
     }
 
     /**
@@ -111,22 +112,4 @@ public class ESBMojo
         return ARTIFACT_TYPE;
     }
 
-    /**
-     * Execute the mojo in the current project.
-     * 
-     * @throws MojoExecutionException For plugin failures.
-     * @throws MojoFailureException For unexpected plugin failures.
-     */
-    public void execute()
-        throws MojoExecutionException
-    {
-        if ( isExploded() )
-        {
-            buildExplodedPackaging();
-        }
-        else
-        {
-            performPackaging();
-        }
-    }
 }

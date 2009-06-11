@@ -19,7 +19,7 @@ package org.codehaus.mojo.jboss.packaging;
  * under the License.
  */
 
-import org.apache.maven.plugin.MojoExecutionException;
+import java.io.File;
 
 /**
  * Build a deployable JBoss Service Archive.
@@ -38,14 +38,12 @@ public class SarMojo
     private static final String ARTIFACT_TYPE = "jboss-sar";
 
     /**
-     * Get the deployment descriptor filename.
+     * The location of the jboss deployment descriptor file (jboss-service.xml) If it is present in
+     * src/main/resources/META-INF then it will automatically be included. Otherwise this parameter must be set.
      * 
-     * @return The filename of the deployment descriptor (jboss-service.xml).
+     * @parameter default-value="src/main/resources/META-INF/jboss-service.xml
      */
-    public String getDeploymentDescriptorFilename()
-    {
-        return "jboss-service.xml";
-    }
+    private File deploymentDescriptorFile;
 
     /**
      * Get the type of the artifact.
@@ -56,23 +54,10 @@ public class SarMojo
     {
         return ARTIFACT_TYPE;
     }
-    /**
-     * Executes the SarMojo on the current project.
-     * 
-     * @throws MojoExecutionException if an error occured while building the webapp
-     */
-    public void execute()
-        throws MojoExecutionException
-    {
 
-        if ( isExploded() )
-        {
-            buildExplodedPackaging();
-        }
-        else 
-        {
-            performPackaging();            
-        }
+    public File getDeploymentDescriptor()
+    {
+        return deploymentDescriptorFile;
     }
 
 }
