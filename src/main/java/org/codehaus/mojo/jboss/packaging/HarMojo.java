@@ -69,7 +69,7 @@ public class HarMojo
         }
 
         // Look for deployment descriptor in the standard places
-        File metaInf = new File( getProject().getBasedir(), "src/main/resources/META-INF" );
+        File metaInf = new File( getProject().getBuild().getOutputDirectory(), "META-INF" );
 
         if ( !metaInf.exists() )
         {
