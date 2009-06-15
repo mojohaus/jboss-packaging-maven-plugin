@@ -181,15 +181,16 @@ public abstract class AbstractPackagingMojo
      * created. If set to "true" only the exploded directory will be created.
      * 
      * @parameter default-value="false"
+     * @since 2.0
      */
-    private boolean exploded;
+    private boolean explodedOnly;
 
     /**
      * @return Whether only the exploded format should be created.
      */
-    public boolean isExploded()
+    public boolean isExplodedOnly()
     {
-        return exploded;
+        return explodedOnly;
     }
 
     /**
@@ -505,7 +506,7 @@ public abstract class AbstractPackagingMojo
         throws MojoExecutionException
     {
 
-        if ( isExploded() )
+        if ( isExplodedOnly() )
         {
             buildExplodedPackaging();
         }

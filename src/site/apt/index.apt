@@ -22,7 +22,8 @@ JBoss Packaging Maven Plugin
   
 * Deprecated Goals
 
-  The exploded formats can be created using the standard goals with the "exploded" parameter set to true.
+  The exploded formats are automatically created using the standard goals.  A parameter "explodedOnly"
+  can be used on the standard goals if the archive is not needed.
   
   * {{{esb-exploded-mojo.html}jboss-packaging:esb-exploded}} Builds a JBoss ESB exploded Archive.
 
