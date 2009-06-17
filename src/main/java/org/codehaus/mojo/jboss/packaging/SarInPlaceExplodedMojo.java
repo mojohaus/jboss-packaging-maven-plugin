@@ -28,7 +28,7 @@ import org.apache.maven.plugin.MojoFailureException;
  * @goal sar-inplace
  * @phase package
  * @requiresDependencyResolution runtime
- * @deprecated Use sar goal with "exploded" parameter
+ * @deprecated Use sar goal with "explodedOnly" parameter
  */
 public class SarInPlaceExplodedMojo
     extends SarMojo

@@ -28,7 +28,7 @@ import org.apache.maven.plugin.MojoFailureException;
  * @goal har-exploded
  * @phase package
  * @requiresDependencyResolution runtime
- * @deprecated Use har goal with "exploded" parameter
+ * @deprecated Use har goal with "explodedOnly" parameter
  */
 public class HarExplodedMojo
     extends HarMojo

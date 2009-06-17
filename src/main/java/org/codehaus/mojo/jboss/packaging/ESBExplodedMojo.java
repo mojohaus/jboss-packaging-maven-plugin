@@ -29,7 +29,7 @@ import org.apache.maven.plugin.MojoFailureException;
  * @goal esb-exploded
  * @phase package
  * @requiresDependencyResolution runtime
- * @deprecated Use esb goal with "exploded" parameter
+ * @deprecated Use esb goal with "explodedOnly" parameter
  */
 public class ESBExplodedMojo
     extends ESBMojo
