@@ -64,7 +64,7 @@ public class ESBMojo
      * The location of the jboss deployment descriptor file (jboss-esb.xml) If it is present in
      * src/main/resources/META-INF then it will automatically be included. Otherwise this parameter must be set.
      * 
-     * @parameter default-value="src/main/resources/META-INF/jboss-esb.xml
+     * @parameter default-value="${project.build.outputDirectory}/META-INF/jboss-esb.xml  expression="${deploymentDescriptorFile}"
      */
     private File deploymentDescriptorFile;
 

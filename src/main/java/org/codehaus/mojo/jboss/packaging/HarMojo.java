@@ -41,7 +41,7 @@ public class HarMojo
      * The name of the hibernate deployment descriptor file. If left blank, the goal will automatically search for
      * "jboss-service.xml", "hibernate-service.xml", and "*-hibernate.xml" in that order.
      * 
-     * @parameter
+     * @parameter expression="${deploymentDescriptorFile}"
      */
     private File deploymentDescriptorFile;
 

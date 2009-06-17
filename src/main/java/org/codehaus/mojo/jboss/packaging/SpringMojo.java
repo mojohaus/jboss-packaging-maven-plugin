@@ -37,7 +37,7 @@ public class SpringMojo
      * src/main/resources/META-INF with that name then it will automatically be included. Otherwise this parameter must
      * be set.
      * 
-     * @parameter default-value="src/main/resources/META-INF/jboss-spring.xml"
+     * @parameter default-value="${project.build.outputDirectory}/META-INF/jboss-spring.xml" expression="${deploymentDescriptorFile}"
      */
     private File deploymentDescriptorFile;
 

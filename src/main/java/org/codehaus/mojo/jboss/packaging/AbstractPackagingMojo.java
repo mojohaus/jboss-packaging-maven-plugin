@@ -120,8 +120,8 @@ public abstract class AbstractPackagingMojo
 
     /**
      * The Jar archiver.
-     * 
-     * @parameter default-value="${component.org.codehaus.plexus.archiver.Archiver#jar}"
+     *
+     * @component role="org.codehaus.plexus.archiver.Archiver" roleHint="jar"
      */
     private JarArchiver jarArchiver;
 
@@ -180,7 +180,7 @@ public abstract class AbstractPackagingMojo
      * Whether to generate only the exploded sar format. By default both an exploded directory and a zipped file will be
      * created. If set to "true" only the exploded directory will be created.
      * 
-     * @parameter default-value="false"
+     * @parameter default-value="false" expression="${explodedOnly}"
      * @since 2.0
      */
     private boolean explodedOnly;
