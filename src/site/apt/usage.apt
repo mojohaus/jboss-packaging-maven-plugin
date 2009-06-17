@@ -13,25 +13,15 @@ Usage
    * ESB -- ESB Archive
    
    * Spring -- Spring BeanFactory Archive
-   
-  Packagings can be assembled in 2 different modes:
 
-   * [sar|har|esb|spring] (default): generates the artifact
-
-   * [sar|har|esb]-exploded: package the archive in the source tree
-   
-  Additionally, the following packaging modes are provided for compatibility with the deprecated jboss-sar-maven-plugin:
-
-   * sar-inplace : package an exploded archive application.
-
-  Each mode is materialized by a goal. For example, to generate an exploded
-  har from the current project, execute the following Maven command line:
+  Each packaging type can be generated directly from the command line.  For example,
+  to generate a .sar file from the current project.
 
 +--------
-mvn jboss-packaging:har-exploded
+mvn jboss-packaging:sar
 +---------
 
-  The full description of goals is available {{{index.html}here}}.
+  The full description of goals is available {{{plugin-info.html}here}}.
     
 * Maven Packaging Integration
 
@@ -77,4 +67,4 @@ mvn jboss-packaging:har-exploded
   the descriptor is in error.
   
   The default deployment descriptor file can be overridden for each packaging type by setting the <<<deploymentDescriptorFile>>> parameter. The full
-  description of goals is available {{{index.html}here}}, each goal describes all of the configuration parameters available.
+  description of goals is available {{{plugin-info.html}here}}, each goal describes all of the configuration parameters available.
