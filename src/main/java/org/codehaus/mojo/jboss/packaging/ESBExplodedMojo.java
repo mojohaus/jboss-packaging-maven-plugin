@@ -20,7 +20,6 @@ package org.codehaus.mojo.jboss.packaging;
  */
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 
 /**
  * Builds a JBoss ESB exploded Archive.

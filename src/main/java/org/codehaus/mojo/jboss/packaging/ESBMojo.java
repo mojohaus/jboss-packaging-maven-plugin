@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.Set;
 
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
