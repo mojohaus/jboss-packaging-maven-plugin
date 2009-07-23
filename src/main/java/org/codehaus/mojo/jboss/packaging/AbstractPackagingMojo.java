@@ -81,12 +81,19 @@ public abstract class AbstractPackagingMojo
     private File packagingDirectory;
 
     /**
-     * The filename for the output deployment descriptor.  By default the deployment descriptor will
-     * retain the same filename.
+     * The filename for the output deployment descriptor. By default the deployment descriptor will retain the same
+     * filename.
      * 
      * @parameter
      */
     private String deploymentDescriptorDestName;
+
+    /**
+     * The destination of the deployment descriptor file.
+     * 
+     * @parameter default-value="${project.build.directory}/${project.build.finalName}/META-INF"
+     */
+    private File deploymentDescriptorDest;
 
     /**
      * The directory where to put the libs.
@@ -119,7 +126,7 @@ public abstract class AbstractPackagingMojo
 
     /**
      * The Jar archiver.
-     *
+     * 
      * @component role="org.codehaus.plexus.archiver.Archiver" roleHint="jar"
      */
     private JarArchiver jarArchiver;
@@ -209,8 +216,24 @@ public abstract class AbstractPackagingMojo
     }
 
     /**
-     * Get the deployment descriptor file. Sublcasses may override this method to provide a different name
-     * for their type of archive packaging
+     * @return the packaging directory
+     */
+    public File getClassesDirectory()
+    {
+        return classesDirectory;
+    }
+
+    /**
+     * @return the lib directory
+     */
+    public File getLibDirectory()
+    {
+        return libDirectory;
+    }
+
+    /**
+     * Get the deployment descriptor file. Sublcasses may override this method to provide a different name for their
+     * type of archive packaging
      * 
      * @return deployment descriptor File
      */
@@ -261,13 +284,22 @@ public abstract class AbstractPackagingMojo
         packagingDirectory.mkdirs();
         libDirectory.mkdirs();
 
+        try
+        {
+            packageResources();
+        }
+        catch ( Exception e1 )
+        {
+            throw new MojoExecutionException( "Failed while packaging resources", e1 );
+        }
+
         if ( classesDirectory.exists() && !classesDirectory.equals( packagingDirectory ) )
         {
             try
             {
-                FileUtils.copyDirectoryStructure( classesDirectory, packagingDirectory );
+                packageClasses();
             }
-            catch ( IOException e )
+            catch ( Exception e )
             {
                 throw new MojoExecutionException( "Unable to copy classes directory", e );
             }
@@ -279,18 +311,17 @@ public abstract class AbstractPackagingMojo
             throw new MojoExecutionException( "Could not find descriptor file: " + deploymentDescriptorFile );
         }
 
-        File packagingMetaInf = new File( packagingDirectory, "META-INF" );
         String destName = this.getDeploymentDescriptorDestName();
         if ( destName == null )
         {
             destName = deploymentDescriptorFile.getName();
         }
-        File deploymentDescriptorTarget = new File( packagingMetaInf, destName );
+        File deploymentDescriptorTarget = new File( getDeploymentDescriptorDest(), destName );
 
         if ( !deploymentDescriptorTarget.exists() )
         {
             deploymentDescriptorTarget.getParentFile().mkdirs();
-            
+
             try
             {
                 FileUtils.copyFile( deploymentDescriptorFile, deploymentDescriptorTarget );
@@ -315,8 +346,8 @@ public abstract class AbstractPackagingMojo
             {
                 String descriptor = artifact.getGroupId() + ":" + artifact.getArtifactId();
 
-                if ( !excludeAll && artifact.getArtifactHandler().isAddedToClasspath() &&
-                    !excludes.contains( descriptor ) )
+                if ( !excludeAll && artifact.getArtifactHandler().isAddedToClasspath()
+                    && !excludes.contains( descriptor ) )
                 {
                     getLog().debug( "        o " + descriptor );
 
@@ -329,9 +360,9 @@ public abstract class AbstractPackagingMojo
 
                     try
                     {
-                        FileUtils.copyFile( artifact.getFile(), new File( libDirectory, name ) );
+                        packageLib( artifact, name );
                     }
-                    catch ( IOException e )
+                    catch ( Exception e )
                     {
                         throw new MojoExecutionException( "Could not copy dependency", e );
                     }
@@ -490,12 +521,17 @@ public abstract class AbstractPackagingMojo
 
         return artifactName;
     }
-    
+
     public String getDeploymentDescriptorDestName()
     {
         return deploymentDescriptorDestName;
     }
-    
+
+    public File getDeploymentDescriptorDest()
+    {
+        return deploymentDescriptorDest;
+    }
+
     /**
      * Main execution for the goal.
      * 
@@ -509,11 +545,42 @@ public abstract class AbstractPackagingMojo
         {
             buildExplodedPackaging();
         }
-        else 
+        else
         {
-            performPackaging();            
+            performPackaging();
         }
     }
-    
-    
+
+    /**
+     * Routine that packages resources not handled by default resource handling.
+     */
+    protected void packageResources()
+        throws Exception
+    {
+        // Do nothing, override to handle specific resources
+    }
+
+    /**
+     * Routine that includes the specified artifact into the exploded packaging.
+     * 
+     * @param artifact
+     * @param name
+     * @throws Exception
+     */
+    protected void packageLib( Artifact artifact, String name )
+        throws Exception
+    {
+        FileUtils.copyFile( artifact.getFile(), new File( libDirectory, name ) );
+    }
+
+    /**
+     * Routine that includes the specified artifact into the exploded packaging.
+     * 
+     * @throws Exception
+     */
+    protected void packageClasses()
+        throws Exception
+    {
+        FileUtils.copyDirectoryStructure( classesDirectory, packagingDirectory );
+    }
 }

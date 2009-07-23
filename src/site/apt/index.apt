@@ -15,6 +15,8 @@ JBoss Packaging Maven Plugin
   * {{{esb-mojo.html}jboss-packaging:esb}} Builds a JBoss ESB Archive.
 
   * {{{har-mojo.html}jboss-packaging:har}} Build a deployable JBoss Hibernate Archive.
+  
+  * {{{par-mojo.html}jboss-packaging:par}} Build a deployable JBoss Process Archive.
 
   * {{{sar-mojo.html}jboss-packaging:sar}} Build a deployable JBoss Service Archive.
 

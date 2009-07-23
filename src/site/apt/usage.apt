@@ -10,6 +10,8 @@ Usage
 
    * HAR -- Hibernate Archive
    
+   * PAR -- Process Archive
+   
    * ESB -- ESB Archive
    
    * Spring -- Spring BeanFactory Archive
@@ -30,6 +32,8 @@ mvn jboss-packaging:sar
    * jboss-sar -- produce SAR artifact
 
    * jboss-har -- produce HAR artifact
+   
+   * jboss-par -- produce PAR artifact
 
    * jboss-esb -- produce ESB artifact
 
@@ -38,7 +42,7 @@ mvn jboss-packaging:sar
   This allows your JBoss deployable artifacts to participate in all Maven operations that act on artifacts including deployment
   to remote repositories and dependency management.
   
-  To enable the <<<jboss-[sar|har|esb|spring]>>> packaging types, the POM or one of its parents must include this plugin with extensions
+  To enable the <<<jboss-[sar|har|par|esb|spring]>>> packaging types, the POM or one of its parents must include this plugin with extensions
   set to true:
   
 +---------
