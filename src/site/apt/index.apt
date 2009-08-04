@@ -61,6 +61,8 @@ JBoss Packaging Maven Plugin
   To provide you with better understanding of some usages of the JBoss Packaging Maven Plugin,
   you can take a look into the following examples:
 
-  * {{{examples/example-sar.html}Example SAR}}
+  * {{{examples/example-sar.html}Example SAR Project}}
+
+  * {{{examples/example-assembly.html}Assembly Plugin Example}}
 
  
