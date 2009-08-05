@@ -52,6 +52,8 @@ public class ParMojo
     private List resources;
 
     /**
+     * The character encoding of the resource files.
+     * 
      * @parameter expression="${encoding}" default-value="${project.build.sourceEncoding}"
      */
     private String encoding;
@@ -64,7 +66,10 @@ public class ParMojo
     private MavenSession session;
 
     /**
-     * @parameter expression="${project.build.filters}"
+     * The filters used when copying the resource files.  By default this
+     * will use the resource filters specified in the POM.
+     * 
+     * @parameter default-value="${project.build.filters}"
      */
     private List filters;
 
