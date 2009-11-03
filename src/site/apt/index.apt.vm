@@ -2,7 +2,7 @@
  Introduction
  ------
 
-JBoss Packaging Maven Plugin
+${project.name}
 
   This plugin packages various JBoss deployable archive files including SAR,
   HAR, ESB, and Spring. These archives are specially named JAR files with a
