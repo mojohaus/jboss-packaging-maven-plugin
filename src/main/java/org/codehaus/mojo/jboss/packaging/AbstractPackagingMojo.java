@@ -255,6 +255,8 @@ public abstract class AbstractPackagingMojo
     }
 
     /**
+     * Build the package in an exploded format.
+     * 
      * @throws MojoExecutionException if an error occurred
      * @throws MojoFailureException if an error occurred
      */
@@ -440,8 +442,6 @@ public abstract class AbstractPackagingMojo
 
         final File archiveFile = calculateFile( outputDirectory, archiveName, classifier, extension );
 
-        buildExplodedPackaging( excludes );
-
         // generate archive file
         getLog().debug( "Generating JBoss packaging " + archiveFile.getAbsolutePath() );
         MavenArchiver archiver = new MavenArchiver();
@@ -547,11 +547,9 @@ public abstract class AbstractPackagingMojo
         throws MojoExecutionException
     {
 
-        if ( isExplodedOnly() )
-        {
-            buildExplodedPackaging();
-        }
-        else
+        buildExplodedPackaging( excludes );
+
+        if ( ! isExplodedOnly() )
         {
             performPackaging();
         }
