@@ -32,7 +32,7 @@
     <component>
       <role>org.codehaus.plexus.archiver.Archiver</role>
       <role-hint>sar</role-hint>
-      <implementation>org.codehaus.plexus.archiver.zip.ZipArchiver</implementation>
+      <implementation>org.codehaus.plexus.archiver.jar.JarArchiver</implementation>
       <instantiation-strategy>per-lookup</instantiation-strategy>
     </component>
     <component>
@@ -74,7 +74,7 @@
     <component>
       <role>org.codehaus.plexus.archiver.Archiver</role>
       <role-hint>par</role-hint>
-      <implementation>org.codehaus.plexus.archiver.zip.ZipArchiver</implementation>
+      <implementation>org.codehaus.plexus.archiver.jar.JarArchiver</implementation>
       <instantiation-strategy>per-lookup</instantiation-strategy>
     </component>
     <component>
@@ -116,7 +116,7 @@
     <component>
       <role>org.codehaus.plexus.archiver.Archiver</role>
       <role-hint>spring</role-hint>
-      <implementation>org.codehaus.plexus.archiver.zip.ZipArchiver</implementation>
+      <implementation>org.codehaus.plexus.archiver.jar.JarArchiver</implementation>
       <instantiation-strategy>per-lookup</instantiation-strategy>
     </component>
     <component>
@@ -158,7 +158,7 @@
     <component>
       <role>org.codehaus.plexus.archiver.Archiver</role>
       <role-hint>har</role-hint>
-      <implementation>org.codehaus.plexus.archiver.zip.ZipArchiver</implementation>
+      <implementation>org.codehaus.plexus.archiver.jar.JarArchiver</implementation>
       <instantiation-strategy>per-lookup</instantiation-strategy>
     </component>
     <component>
@@ -200,7 +200,7 @@
     <component>
       <role>org.codehaus.plexus.archiver.Archiver</role>
       <role-hint>esb</role-hint>
-      <implementation>org.codehaus.plexus.archiver.zip.ZipArchiver</implementation>
+      <implementation>org.codehaus.plexus.archiver.jar.JarArchiver</implementation>
       <instantiation-strategy>per-lookup</instantiation-strategy>
     </component>
     <component>
