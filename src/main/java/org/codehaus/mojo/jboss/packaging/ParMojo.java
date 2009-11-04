@@ -33,6 +33,8 @@ public class ParMojo
     private static final String ARTIFACT_TYPE = "jboss-par";
 
     /**
+     * Component that determines how to extract archive files.
+     * 
      * @component
      */
     private ArchiverManager archiverManager;
@@ -189,7 +191,7 @@ public class ParMojo
     protected void packageLib( Artifact artifact, String name )
         throws Exception
     {
-        UnArchiver unArchiver = archiverManager.getUnArchiver( artifact.getType() );
+        UnArchiver unArchiver = archiverManager.getUnArchiver( artifact.getFile() );
         unArchiver.setSourceFile( artifact.getFile() );
         unArchiver.setDestDirectory( packagingClassesDirectory );
         unArchiver.extract();
