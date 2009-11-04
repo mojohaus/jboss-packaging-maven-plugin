@@ -146,7 +146,7 @@ public abstract class AbstractPackagingMojo
     private File manifest;
 
     /**
-     * Classifier to add to the generated artifact. If given, the artifact will be an attachment instead.
+     * Classifier to add to the generated artifact. If given, the artifact not be the primary project artifact.
      * 
      * @parameter
      */
@@ -461,15 +461,21 @@ public abstract class AbstractPackagingMojo
             throw new MojoExecutionException( "Problem generating archive file.", e );
         }
 
-        if ( classifier != null )
+        // If there is a classifier, then this archive is not the primary project artifact.
+        if ( classifier != null && !classifier.equals( "" ) )
         {
-            projectHelper.attachArtifact( project, type, classifier, archiveFile );
+            primaryArtifact = false;
         }
-        else if ( primaryArtifact )
+        
+        if ( primaryArtifact )
         {
             Artifact artifact = project.getArtifact();
             artifact.setFile( archiveFile );
             artifact.setArtifactHandler( artifactHandler );
+        }
+        else
+        {
+            projectHelper.attachArtifact( project, type, classifier, archiveFile );
         }
     }
 
