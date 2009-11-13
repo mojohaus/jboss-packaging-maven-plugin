@@ -10,7 +10,7 @@ Dependency Examples
 
   Each of the JBoss packaging types can be consumed from a Maven repository.  For example, 
   a <<<sar>>> artifact that has been deployed to a Maven repository can be used in a 
-  consumer project by setting the dependency type to "sar" or "jboss-sar".
+  consumer project by setting the dependency type to "sar".
   
 +---------
 <project>
@@ -31,3 +31,4 @@ Dependency Examples
 </project>
 +---------
 
+  The valid dependency types are "sar", "har", "par", "esb", and "spring".
