@@ -30,7 +30,7 @@
   <artifactId>jboss-packaging-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <name>JBoss Packaging Maven Plugin</name>
-  <version>2.2-SNAPSHOT</version>
+  <version>2.1.1-SNAPSHOT</version>
   <description>Maven plugin for generated JAR-based packagings for deployment to JBoss.</description>
   <url>http://mojo.codehaus.org/jboss-packaging-maven-plugin/</url>
   <prerequisites>
