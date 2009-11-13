@@ -1,5 +1,7 @@
 <component-set>
   <components>
+    
+    <!-- JBoss Service Archive (sar) Configuration -->
     <component>
       <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
       <role-hint>jboss-sar</role-hint>
@@ -42,6 +44,7 @@
       <instantiation-strategy>per-lookup</instantiation-strategy>
     </component>
     
+    <!-- JBoss Process Archive (par) Configuration -->
     <component>
       <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
       <role-hint>jboss-par</role-hint>
@@ -84,6 +87,7 @@
       <instantiation-strategy>per-lookup</instantiation-strategy>
     </component>
     
+    <!-- JBoss Spring Archive (spring) Configuration -->
     <component>
       <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
       <role-hint>jboss-spring</role-hint>
@@ -126,6 +130,7 @@
       <instantiation-strategy>per-lookup</instantiation-strategy>
     </component>
     
+    <!-- JBoss Hibernate Archive (har) Configuration -->
     <component>
       <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
       <role-hint>jboss-har</role-hint>
@@ -168,6 +173,7 @@
       <instantiation-strategy>per-lookup</instantiation-strategy>
     </component>
     
+    <!-- JBoss Enterprise Service Bus (esb) Configuration -->
     <component>
       <role>org.apache.maven.artifact.handler.ArtifactHandler</role>
       <role-hint>jboss-esb</role-hint>
