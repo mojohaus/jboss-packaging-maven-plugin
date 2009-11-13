@@ -61,8 +61,10 @@ ${project.name}
   To provide you with better understanding of some usages of the JBoss Packaging Maven Plugin,
   you can take a look into the following examples:
 
-  * {{{examples/example-sar.html}Example SAR Project}}
+  * {{{examples/example-basic.html}Basic Examples}}
 
-  * {{{examples/example-assembly.html}Assembly Plugin Example}}
+  * {{{examples/example-assembly.html}Assembly Plugin}}
+
+  * {{{examples/example-dependency.html}Dependencies}}
 
  

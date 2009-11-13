@@ -1,15 +1,16 @@
  ------
- Sar Examples
+ Basic Examples
  ------
- Paul Gier <pgier at redhat.com>
+ Paul Gier <pgier at apache.org>
  ------
  April 11 2008
  ------
 
-JBoss Sar Examples
+Basic Examples
 
-  The sar goal can be used by setting the project packaging type to <<<jboss-sar>>> and adding the 
-  plugin to the pom with extensions enabled.
+  The JBoss packaging types can be used by first enabling the packaging with a build extension, and then
+  setting the project <<<packaging>>> to one of the JBoss types (jboss-[sar|har|par|esb|spring]).   For example,
+  to generate a <<<sar>>> file, the <<<jboss-sar>>> packaging type is used.
   
 +---------
 <project>
@@ -38,12 +39,12 @@ JBoss Sar Examples
 
 * Including and excluding dependencies
 
-  A sar project will normally include some dependencies that should be
-  added the the sar "lib" directory, and some that should not be included.
+  The JBoss packaging types will often include some dependencies that should be
+  added to the "lib" directory.
   
   By default only dependencies with a <<compile>> or <<runtime>> scope will be included 
-  in the generated sar file.  The excludes parameter can also be used to prevent
-  certain dependency artifacts from being included in the sar.
+  in the generated archive.  The excludes parameter can also be used to prevent
+  certain dependency artifacts from being included.
   
 +---------
 <project>

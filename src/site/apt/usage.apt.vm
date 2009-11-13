@@ -12,38 +12,23 @@ Usage
    
    * PAR -- Process Archive
    
-   * ESB -- ESB Archive
+   * ESB -- Enterprise Service Bus Archive
    
    * Spring -- Spring BeanFactory Archive
 
   Each packaging type can be generated directly from the command line.  For example,
-  to generate a .sar file from the current project.
+  the <<<sar>>> goal can be used to generate a .sar file from the current project.
 
 +--------
 mvn jboss-packaging:sar
 +---------
 
-  The full description of goals is available {{{plugin-info.html}here}}.
+  The full list of plugin goals is available {{{plugin-info.html}here}}.
     
-* Maven Packaging Integration
+* Enabling the JBoss Packaging Types
 
-  JBoss packaging may also be integrated into the default Maven packaging phase by setting your POMs <packaging> element as follows:
-
-   * jboss-sar -- produce SAR artifact
-
-   * jboss-har -- produce HAR artifact
-   
-   * jboss-par -- produce PAR artifact
-
-   * jboss-esb -- produce ESB artifact
-
-   * jboss-spring -- produce Spring artifact
-   
-  This allows your JBoss deployable artifacts to participate in all Maven operations that act on artifacts including deployment
-  to remote repositories and dependency management.
-  
-  To enable the <<<jboss-[sar|har|par|esb|spring]>>> packaging types, the POM or one of its parents must include this plugin with extensions
-  set to true:
+  To enable the <<<jboss-[sar|har|par|esb|spring]>>> packaging types, the POM or one of 
+  its parents must include this plugin with <<<extensions>>> set to true.
   
 +---------
   <build>
@@ -63,6 +48,55 @@ mvn jboss-packaging:sar
     ...
   </build>
 +---------
+  
+  JBoss packaging may then be integrated into the default Maven packaging phase by setting 
+  your POMs <packaging> element to one of the JBoss packaging types.
+
+   * jboss-sar -- produce SAR artifact
+
+   * jboss-har -- produce HAR artifact
+   
+   * jboss-par -- produce PAR artifact
+
+   * jboss-esb -- produce ESB artifact
+
+   * jboss-spring -- produce Spring artifact
+   
+  This allows your JBoss deployable artifacts to participate in all Maven operations that act 
+  on artifacts including deployment to remote repositories and dependency management.
+  
+* Creating an Attached Jar
+
+  In some cases, multiple artifacts will be generated during a single build.  The <<<jboss-packaging-maven-plugin>>>
+  allows this by setting the <<<primaryArtifact>>> parameter to false.
+
++-----
+<project>
+  ...
+  <build>
+    ...
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jboss-packaging-maven-plugin</artifactId>
+        <version>@pom.version@</version>
+        <extensions>true</extensions>
+        <executions>
+          <execution>
+            <id>jboss-sar</id>
+            <phase>package</phase>
+            <goals>
+              <goal>sar</goal>
+            </goals>
+	        <configuration>
+	          <primaryArtifact>false</primaryArtifact>
+	        </configuration>
+          </execution>
+        <executions>
+      </plugin>
+    ...
+  </build>
+</project>
++-----  
   
 * Deployment Descriptors
  
