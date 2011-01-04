@@ -110,7 +110,7 @@ public abstract class AbstractPackagingMojo
     private String archiveName;
 
     /**
-     * All artifacts are excluded
+     * All artifacts are excluded.
      * 
      * @parameter expression="${excludeAll}" default-value="false"
      */
@@ -146,7 +146,7 @@ public abstract class AbstractPackagingMojo
     private File manifest;
 
     /**
-     * Classifier to add to the generated artifact. If given, the artifact not be the primary project artifact.
+     * Classifier to add to the generated artifact. If given, the artifact will not be the primary project artifact.
      * 
      * @parameter
      */
@@ -183,7 +183,7 @@ public abstract class AbstractPackagingMojo
     private boolean removeDependencyVersions;
 
     /**
-     * Whether to generate only the exploded sar format. By default both an exploded directory and a zipped file will be
+     * Whether to generate only the exploded archive format. By default both an exploded directory and a zipped file will be
      * created. If set to "true" only the exploded directory will be created.
      * 
      * @parameter default-value="false" expression="${explodedOnly}"
@@ -192,7 +192,7 @@ public abstract class AbstractPackagingMojo
     private boolean explodedOnly;
 
     /**
-     * @return Whether only the exploded format should be created.
+     * @return Whether only the exploded format should be created
      */
     public boolean isExplodedOnly()
     {
@@ -232,8 +232,8 @@ public abstract class AbstractPackagingMojo
     }
 
     /**
-     * Get the deployment descriptor file. Sublcasses may override this method to provide a different name for their
-     * type of archive packaging
+     * Get the deployment descriptor file. Subclasses may override this method to provide a different name for their
+     * type of archive packaging.
      * 
      * @return deployment descriptor File
      */
@@ -242,12 +242,12 @@ public abstract class AbstractPackagingMojo
     /**
      * Get the type of the artifact.
      * 
-     * @return The type of the generated artifact.
+     * @return The type of the generated artifact
      */
     public abstract String getArtifactType();
 
     /**
-     * @return The directory to write the archive
+     * @return The directory where to write the archive
      */
     public File getOutputDirectory()
     {
@@ -541,7 +541,7 @@ public abstract class AbstractPackagingMojo
     /**
      * Main execution for the goal.
      * 
-     * @throws MojoExecutionException if an error occured while building the webapp
+     * @throws MojoExecutionException if an error occurred while building the webapp
      */
     public void execute()
         throws MojoExecutionException
