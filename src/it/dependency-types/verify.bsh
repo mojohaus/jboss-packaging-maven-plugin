@@ -35,6 +35,12 @@ try
         System.err.println( "Could not find spring: " + springFile );
         return false;
     }
+    File aopFile = new File( depsDir1, "create-artifacts-1.0-SNAPSHOT.aop" );
+    if ( !aopFile.exists() || aopFile.isDirectory() )
+    {
+        System.err.println( "Could not find aop: " + aopFile );
+        return false;
+    }
     
     File depsDir2 = new File( basedir, "use-artifacts-2/target/dependency" );
     
@@ -66,6 +72,12 @@ try
     if ( !springFile.exists() || springFile.isDirectory() )
     {
         System.err.println( "Could not find spring: " + springFile );
+        return false;
+    }
+    File aopFile = new File( depsDir2, "create-artifacts-1.0-SNAPSHOT.aop" );
+    if ( !aopFile.exists() || aopFile.isDirectory() )
+    {
+        System.err.println( "Could not find aop: " + aopFile );
         return false;
     }
     

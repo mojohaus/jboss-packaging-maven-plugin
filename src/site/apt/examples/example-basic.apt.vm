@@ -9,7 +9,7 @@
 Basic Examples
 
   The JBoss packaging types can be used by first enabling the packaging with a build extension, and then
-  setting the project <<<packaging>>> to one of the JBoss types (jboss-[sar|har|par|esb|spring]).   For example,
+  setting the project <<<packaging>>> to one of the JBoss types (jboss-[sar|har|par|esb|spring|aop]). For example,
   to generate a <<<sar>>> file, the <<<jboss-sar>>> packaging type is used.
   
 +---------

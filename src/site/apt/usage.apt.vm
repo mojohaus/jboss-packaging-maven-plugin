@@ -16,6 +16,8 @@ Usage
    
    * Spring -- Spring BeanFactory Archive
 
+   * AOP -- JBoss AOP Archive
+
   Each packaging type can be generated directly from the command line.  For example,
   the <<<sar>>> goal can be used to generate a .sar file from the current project.
 
@@ -27,7 +29,7 @@ mvn jboss-packaging:sar
     
 * Enabling the JBoss Packaging Types
 
-  To enable the <<<jboss-[sar|har|par|esb|spring]>>> packaging types, the POM or one of 
+  To enable the <<<jboss-[sar|har|par|esb|spring|aop]>>> packaging types, the POM or one of 
   its parents must include this plugin with <<<extensions>>> set to true.
   
 +---------
@@ -61,6 +63,8 @@ mvn jboss-packaging:sar
    * jboss-esb -- produce ESB artifact
 
    * jboss-spring -- produce Spring artifact
+
+   * jboss-aop -- produce AOP artifact
    
   This allows your JBoss deployable artifacts to participate in all Maven operations that act 
   on artifacts including deployment to remote repositories and dependency management.
@@ -87,9 +91,9 @@ mvn jboss-packaging:sar
             <goals>
               <goal>sar</goal>
             </goals>
-	        <configuration>
-	          <primaryArtifact>false</primaryArtifact>
-	        </configuration>
+            <configuration>
+              <primaryArtifact>false</primaryArtifact>
+            </configuration>
           </execution>
         <executions>
       </plugin>

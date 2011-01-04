@@ -68,6 +68,12 @@
       <version>1.0-SNAPSHOT</version>
       <type>jboss-spring</type>
     </dependency>
+    <dependency>
+      <groupId>org.codehaus.mojo.jboss.tests</groupId>
+      <artifactId>create-artifacts</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <type>jboss-aop</type>
+    </dependency>
 
   </dependencies>
 

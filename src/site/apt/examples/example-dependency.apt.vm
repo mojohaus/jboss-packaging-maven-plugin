@@ -31,4 +31,4 @@ Dependency Examples
 </project>
 +---------
 
-  The valid dependency types are "sar", "har", "par", "esb", and "spring".
+  The valid dependency types are "sar", "har", "par", "esb", "spring", and "aop".

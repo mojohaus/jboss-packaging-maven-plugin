@@ -55,6 +55,13 @@
               <goal>spring</goal>
             </goals>
           </execution>
+          <execution>
+            <id>jboss-aop</id>
+            <phase>package</phase>
+            <goals>
+              <goal>aop</goal>
+            </goals>
+          </execution>
         </executions>
         <configuration>
           <primaryArtifact>false</primaryArtifact>
