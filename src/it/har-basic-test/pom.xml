@@ -33,9 +33,6 @@
       <resource>
         <directory>src/main/resources</directory>
         <filtering>true</filtering>
-        <includes>
-          <include>META-INF/*.xml</include>
-        </includes>
       </resource>
     </resources>
     <plugins>
