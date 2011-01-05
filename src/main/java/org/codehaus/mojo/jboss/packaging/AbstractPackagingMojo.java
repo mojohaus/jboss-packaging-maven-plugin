@@ -183,8 +183,8 @@ public abstract class AbstractPackagingMojo
     private boolean removeDependencyVersions;
 
     /**
-     * Whether to generate only the exploded archive format. By default both an exploded directory and a zipped file will be
-     * created. If set to "true" only the exploded directory will be created.
+     * Whether to generate only the exploded archive format. By default both an exploded directory and a zipped file
+     * will be created. If set to "true" only the exploded directory will be created.
      * 
      * @parameter default-value="false" expression="${explodedOnly}"
      * @since 2.0
@@ -466,7 +466,7 @@ public abstract class AbstractPackagingMojo
         {
             primaryArtifact = false;
         }
-        
+
         if ( primaryArtifact )
         {
             Artifact artifact = project.getArtifact();
@@ -549,7 +549,7 @@ public abstract class AbstractPackagingMojo
 
         buildExplodedPackaging( excludes );
 
-        if ( ! isExplodedOnly() )
+        if ( !isExplodedOnly() )
         {
             performPackaging();
         }

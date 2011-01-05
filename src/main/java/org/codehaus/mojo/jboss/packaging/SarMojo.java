@@ -42,7 +42,8 @@ public class SarMojo
      * The location of the jboss deployment descriptor file (jboss-service.xml) If it is present in
      * src/main/resources/META-INF then it will automatically be included. Otherwise this parameter must be set.
      * 
-     * @parameter default-value="${project.build.outputDirectory}/META-INF/jboss-service.xml" expression="${deploymentDescriptorFile}"
+     * @parameter default-value="${project.build.outputDirectory}/META-INF/jboss-service.xml"
+     *            expression="${deploymentDescriptorFile}"
      */
     private File deploymentDescriptorFile;
 
