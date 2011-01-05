@@ -33,6 +33,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @goal esb
  * @phase package
  * @requiresDependencyResolution runtime
+ * @threadSafe
  */
 public class ESBMojo
     extends AbstractPackagingMojo

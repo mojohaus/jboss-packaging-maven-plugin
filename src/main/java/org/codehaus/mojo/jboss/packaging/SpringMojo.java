@@ -27,6 +27,7 @@ import java.io.File;
  * @goal spring
  * @phase package
  * @requiresDependencyResolution runtime
+ * @threadSafe
  */
 public class SpringMojo
     extends AbstractPackagingMojo

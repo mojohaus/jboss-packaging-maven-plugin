@@ -32,6 +32,7 @@ import java.io.File;
  * @goal har
  * @phase package
  * @requiresDependencyResolution runtime
+ * @threadSafe
  */
 public class HarMojo
     extends AbstractPackagingMojo

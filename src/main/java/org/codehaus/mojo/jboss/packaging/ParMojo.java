@@ -22,6 +22,7 @@ import org.codehaus.plexus.util.FileUtils;
  * @goal par
  * @phase package
  * @requiresDependencyResolution runtime
+ * @threadSafe
  */
 public class ParMojo
     extends AbstractPackagingMojo

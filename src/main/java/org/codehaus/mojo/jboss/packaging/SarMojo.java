@@ -27,6 +27,7 @@ import java.io.File;
  * @goal sar
  * @phase package
  * @requiresDependencyResolution runtime
+ * @threadSafe
  */
 public class SarMojo
     extends AbstractPackagingMojo

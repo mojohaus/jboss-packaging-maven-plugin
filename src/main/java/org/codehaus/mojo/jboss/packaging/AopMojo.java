@@ -27,6 +27,7 @@ import java.io.File;
  * @goal aop
  * @phase package
  * @requiresDependencyResolution runtime
+ * @threadSafe
  * @since 2.2
  */
 public class AopMojo
