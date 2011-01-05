@@ -25,7 +25,7 @@ Usage
 mvn jboss-packaging:sar
 +---------
 
-  The full list of plugin goals is available {{{plugin-info.html}here}}.
+  The full list of plugin goals is available {{{./plugin-info.html}here}}.
     
 * Enabling the JBoss Packaging Types
 
@@ -109,4 +109,4 @@ mvn jboss-packaging:sar
   the descriptor is in error.
   
   The default deployment descriptor file can be overridden for each packaging type by setting the <<<deploymentDescriptorFile>>> parameter. The full
-  description of goals is available {{{plugin-info.html}here}}, each goal describes all of the configuration parameters available.
+  description of goals is available {{{./plugin-info.html}here}}, each goal describes all of the configuration parameters available.
