@@ -8,10 +8,11 @@
 
 Maven Assembly Plugin Example
 
-  The maven assembly plugin can be used to create the various jboss packaging types.  This is useful
-  for example if you have a complex configuration, or if multiple sar, har, or par artifacts should be
-  created for a single build.  The assembly plugin should be configured with the jboss packaging plugin
-  as a dependency.  This allows the assembly plugin to correctly handle the "sar" and other jboss formats.
+  The Maven Assembly Plugin can be used to create the various JBoss packaging types. This is useful
+  for example if you have a complex configuration, or if multiple aop, esb, har, par, sar, or spring
+  artifacts should be created for a single build. The Assembly Plugin should then be configured with
+  the JBoss Packaging Plugin as a dependency, to allow for the Assembly Plugin to correctly handle
+  the JBoss-specific archive formats.
   
 +---------
 <project>
@@ -23,7 +24,7 @@ Maven Assembly Plugin Example
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
-        <version>2.2-beta-4</version>
+        <version>2.2</version>
         <executions>
           <execution>
             <id>my-sar</id>
@@ -73,7 +74,7 @@ Maven Assembly Plugin Example
   <dependencySets>
     <dependencySet>
       <outputFileNameMapping>${artifact.artifactId}.jar</outputFileNameMapping>
-      <outputDirectory>/lib</outputDirectory>
+      <outputDirectory>lib</outputDirectory>
     </dependencySet>
   </dependencySets>
 </assembly>

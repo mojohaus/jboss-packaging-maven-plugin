@@ -3,7 +3,7 @@
  ------
  Paul Gier <pgier at apache.org>
  ------
- Novemember 13, 2009
+ November 13, 2009
  ------
 
 Dependency Examples
@@ -31,4 +31,4 @@ Dependency Examples
 </project>
 +---------
 
-  The valid dependency types are "sar", "har", "par", "esb", "spring", and "aop".
+  The valid dependency types are "aop", "esb", "har", "par", "sar", and "spring".

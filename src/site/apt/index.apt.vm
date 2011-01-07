@@ -4,26 +4,26 @@
 
 ${project.name}
 
-  This plugin packages various JBoss deployable archive files including SAR,
-  HAR, ESB, Spring, and AOP. These archives are specially named JAR files with a
+  This plugin packages various JBoss deployable archive files including AOP,
+  ESB, HAR, SAR, and Spring. These archives are specially named JAR files with a
   specific deployable XML descriptor and file extension.
 
 * Goals Overview
 
   General Information about the plugin goals.
 
-  * {{{./esb-mojo.html}jboss-packaging:esb}} Builds a JBoss ESB Archive.
-
-  * {{{./har-mojo.html}jboss-packaging:har}} Build a deployable JBoss Hibernate Archive.
+  * {{{./aop-mojo.html}jboss-packaging:aop}} Builds a deployable JBoss AOP Archive.
   
-  * {{{./par-mojo.html}jboss-packaging:par}} Build a deployable JBoss Process Archive.
+  * {{{./esb-mojo.html}jboss-packaging:esb}} Builds a deployable JBoss ESB Archive.
 
-  * {{{./sar-mojo.html}jboss-packaging:sar}} Build a deployable JBoss Service Archive.
-
-  * {{{./spring-mojo.html}jboss-packaging:spring}} Build a deployable JBoss Spring Archive.
-
-  * {{{./aop-mojo.html}jboss-packaging:aop}} Build a deployable JBoss AOP Archive.
+  * {{{./har-mojo.html}jboss-packaging:har}} Builds a deployable JBoss Hibernate Archive.
   
+  * {{{./par-mojo.html}jboss-packaging:par}} Builds a deployable JBoss Process Archive.
+
+  * {{{./sar-mojo.html}jboss-packaging:sar}} Builds a deployable JBoss Service Archive.
+
+  * {{{./spring-mojo.html}jboss-packaging:spring}} Builds a deployable JBoss Spring Archive.
+
 * Deprecated Goals
 
   The exploded formats are automatically created using the standard goals.  A parameter "explodedOnly"
@@ -31,11 +31,11 @@ ${project.name}
   
   * {{{./esb-exploded-mojo.html}jboss-packaging:esb-exploded}} Builds a JBoss ESB exploded Archive.
 
-  * {{{./har-exploded-mojo.html}jboss-packaging:har-exploded}} Build a JBoss Hibernate exploded Archive.
+  * {{{./har-exploded-mojo.html}jboss-packaging:har-exploded}} Builds a JBoss Hibernate exploded Archive.
 
-  * {{{./sar-exploded-mojo.html}jboss-packaging:sar-exploded}} Build a JBoss Service exploded Archive.
+  * {{{./sar-exploded-mojo.html}jboss-packaging:sar-exploded}} Builds a JBoss Service exploded Archive.
 
-  * {{{./sar-inplace-mojo.html}jboss-packaging:sar-inplace}} Build a JBoss Service in place exploded Archive.
+  * {{{./sar-inplace-mojo.html}jboss-packaging:sar-inplace}} Builds a JBoss Service in place exploded Archive.
 
 
 * Usage

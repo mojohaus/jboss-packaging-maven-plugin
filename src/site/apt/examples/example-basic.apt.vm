@@ -9,7 +9,7 @@
 Basic Examples
 
   The JBoss packaging types can be used by first enabling the packaging with a build extension, and then
-  setting the project <<<packaging>>> to one of the JBoss types (jboss-[sar|har|par|esb|spring|aop]). For example,
+  setting the project <<<packaging>>> to one of the JBoss types (jboss-[aop|esb|har|par|sar|spring]). For example,
   to generate a <<<sar>>> file, the <<<jboss-sar>>> packaging type is used.
   
 +---------
@@ -62,7 +62,7 @@ Basic Examples
         <extensions>true</extensions>
         <configuration>
           <excludes>
-            <exclude>groupId:artifactId</exclude> <!-- if you want to exclude an artifact in the sar -->
+            <exclude>groupId:artifactId</exclude> <!-- if you want to exclude an artifact from the sar -->
           </excludes>
         </configuration>
       </plugin>
