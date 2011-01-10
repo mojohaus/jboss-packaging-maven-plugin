@@ -22,7 +22,7 @@ package org.codehaus.mojo.jboss.packaging;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Builds a JBoss ESB exploded Archive.
+ * Builds a deployable JBoss ESB exploded Archive.
  * 
  * @author <a href="mailto:kevin.conner@jboss.com">Kevin Conner</a>
  * @goal esb-exploded

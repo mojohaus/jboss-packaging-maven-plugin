@@ -22,7 +22,7 @@ package org.codehaus.mojo.jboss.packaging;
 import java.io.File;
 
 /**
- * Build a deployable JBoss AOP Archive.
+ * Builds a deployable JBoss AOP Archive.
  * 
  * @goal aop
  * @phase package

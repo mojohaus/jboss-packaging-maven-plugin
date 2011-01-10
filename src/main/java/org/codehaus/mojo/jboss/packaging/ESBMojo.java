@@ -27,7 +27,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * Builds a JBoss ESB Archive.
+ * Builds a deployable JBoss ESB Archive.
  * 
  * @author <a href="mailto:kevin.conner@jboss.com">Kevin Conner</a>
  * @goal esb

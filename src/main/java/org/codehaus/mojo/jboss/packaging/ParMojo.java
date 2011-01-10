@@ -36,7 +36,7 @@ import org.codehaus.plexus.archiver.manager.ArchiverManager;
 import org.codehaus.plexus.util.FileUtils;
 
 /**
- * Build a deployable JBoss Process Archive.
+ * Builds a deployable JBoss Process Archive.
  * 
  * @goal par
  * @phase package

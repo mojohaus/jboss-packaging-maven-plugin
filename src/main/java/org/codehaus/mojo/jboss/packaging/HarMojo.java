@@ -22,7 +22,7 @@ package org.codehaus.mojo.jboss.packaging;
 import java.io.File;
 
 /**
- * Build a deployable JBoss Hibernate Archive. Note that in versions of jboss prior to 4.0.3 the deployment descriptor
+ * Builds a deployable JBoss Hibernate Archive. Note that in versions of jboss prior to 4.0.3 the deployment descriptor
  * for a HAR was "hibernate-service.xml". In 4.0.3 this changed to use "jboss-service.xml" similar to the SAR format. In
  * JBoss 5 and above, the HAR deployment descriptor can be any file with a name that matches the pattern
  * "*-hibernate.xml". If the parameter "deploymentDescriptorFile" is not set, this goal will first look for
