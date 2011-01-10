@@ -29,7 +29,7 @@
   <artifactId>jboss-packaging-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
   <name>JBoss Packaging Maven Plugin</name>
-  <version>2.2-SNAPSHOT</version>
+  <version>2.2</version>
   <description>Maven plugin for generating various JBoss deployable archive files.</description>
   <url>http://mojo.codehaus.org/jboss-packaging-maven-plugin/</url>
   <prerequisites>
@@ -51,9 +51,9 @@
   </issueManagement>
   
   <scm>
-    <connection>scm:svn:http://svn.codehaus.org/mojo/trunk/mojo/jboss-packaging-maven-plugin</connection>
-    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/trunk/mojo/jboss-packaging-maven-plugin</developerConnection>
-    <url>http://fisheye.codehaus.org/browse/mojo/trunk/mojo/jboss-packaging-maven-plugin</url>
+    <connection>scm:svn:http://svn.codehaus.org/mojo/tags/jboss-packaging-maven-plugin-2.2</connection>
+    <developerConnection>scm:svn:https://svn.codehaus.org/mojo/tags/jboss-packaging-maven-plugin-2.2</developerConnection>
+    <url>http://fisheye.codehaus.org/browse/mojo/tags/jboss-packaging-maven-plugin-2.2</url>
   </scm>
   
   <dependencies>
