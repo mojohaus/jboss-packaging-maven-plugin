@@ -22,7 +22,7 @@ package org.codehaus.mojo.jboss.packaging;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Build a JBoss Service exploded Archive.
+ * Builds a deployable JBoss Service exploded Archive.
  * 
  * @goal sar-exploded
  * @phase package

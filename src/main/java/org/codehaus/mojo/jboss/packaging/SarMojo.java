@@ -22,7 +22,7 @@ package org.codehaus.mojo.jboss.packaging;
 import java.io.File;
 
 /**
- * Build a deployable JBoss Service Archive.
+ * Builds a deployable JBoss Service Archive.
  * 
  * @goal sar
  * @phase package

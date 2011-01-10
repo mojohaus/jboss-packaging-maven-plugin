@@ -22,7 +22,7 @@ package org.codehaus.mojo.jboss.packaging;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Build a JBoss Hibernate exploded Archive.
+ * Builds a deployable JBoss Hibernate exploded Archive.
  * 
  * @goal har-exploded
  * @phase package

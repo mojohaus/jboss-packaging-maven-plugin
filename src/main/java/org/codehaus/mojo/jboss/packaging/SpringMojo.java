@@ -22,7 +22,7 @@ package org.codehaus.mojo.jboss.packaging;
 import java.io.File;
 
 /**
- * Build a deployable JBoss Spring Archive.
+ * Builds a deployable JBoss Spring Archive.
  * 
  * @goal spring
  * @phase package
