@@ -578,7 +578,7 @@ public abstract class AbstractPackagingMojo
     }
 
     /**
-     * Routine that includes the specified artifact into the exploded packaging.
+     * Routine that includes the generated classes into the exploded packaging.
      * 
      * @throws Exception
      */
