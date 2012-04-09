@@ -24,7 +24,7 @@
   <parent>
     <artifactId>mojo-parent</artifactId>
     <groupId>org.codehaus.mojo</groupId>
-    <version>27</version>
+    <version>30</version>
   </parent>
   <artifactId>jboss-packaging-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
