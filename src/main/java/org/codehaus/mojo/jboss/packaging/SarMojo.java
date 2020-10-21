@@ -43,7 +43,7 @@ public class SarMojo
      * src/main/resources/META-INF then it will automatically be included. Otherwise this parameter must be set.
      * 
      * @parameter default-value="${project.build.outputDirectory}/META-INF/jboss-service.xml"
-     *            expression="${deploymentDescriptorFile}"
+     *            property="deploymentDescriptorFile"
      */
     private File deploymentDescriptorFile;
 

@@ -39,7 +39,7 @@ public class SpringMojo
      * be set.
      * 
      * @parameter default-value="${project.build.outputDirectory}/META-INF/jboss-spring.xml"
-     *            expression="${deploymentDescriptorFile}"
+     *            property="deploymentDescriptorFile"
      */
     private File deploymentDescriptorFile;
 
