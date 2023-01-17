@@ -112,7 +112,7 @@ public abstract class AbstractPackagingMojo
     /**
      * All artifacts are excluded.
      * 
-     * @parameter expression="${excludeAll}" default-value="false"
+     * @parameter property="excludeAll" default-value="false"
      */
     private boolean excludeAll;
 
@@ -186,7 +186,7 @@ public abstract class AbstractPackagingMojo
      * Whether to generate only the exploded archive format. By default both an exploded directory and a zipped file
      * will be created. If set to "true" only the exploded directory will be created.
      * 
-     * @parameter default-value="false" expression="${explodedOnly}"
+     * @parameter default-value="false" property="explodedOnly"
      * @since 2.0
      */
     private boolean explodedOnly;
@@ -258,7 +258,6 @@ public abstract class AbstractPackagingMojo
      * Build the package in an exploded format.
      * 
      * @throws MojoExecutionException if an error occurred
-     * @throws MojoFailureException if an error occurred
      */
     public void buildExplodedPackaging()
         throws MojoExecutionException
@@ -271,7 +270,6 @@ public abstract class AbstractPackagingMojo
      * 
      * @param excludes File patterns to exclude from the packaging.
      * @throws MojoExecutionException if an error occurred
-     * @throws MojoFailureException if an error occurred
      */
     public void buildExplodedPackaging( Set excludes )
         throws MojoExecutionException
@@ -399,7 +397,7 @@ public abstract class AbstractPackagingMojo
         {
             String[] files = libDirectory.list();
 
-            if ( files.length == 0 )
+            if ( files != null && files.length == 0 )
             {
                 libDirectory.delete();
             }
@@ -411,8 +409,6 @@ public abstract class AbstractPackagingMojo
      * 
      * @param excludes The exclude list.
      * @throws MojoExecutionException For plugin failures.
-     * @throws MojoFailureException For unexpected plugin failures.
-     * @throws IOException For exceptions during IO operations.
      */
     protected void buildSpecificPackaging( final Set excludes )
         throws MojoExecutionException
