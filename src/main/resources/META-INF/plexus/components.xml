@@ -10,6 +10,7 @@
         <extension>sar</extension>
         <type>jboss-sar</type>
         <packaging>jboss-sar</packaging>
+        <includesDependencies>true</includesDependencies>
         <language>java</language>
         <addedToClasspath>true</addedToClasspath>
       </configuration>
@@ -53,6 +54,7 @@
         <extension>par</extension>
         <type>jboss-par</type>
         <packaging>jboss-par</packaging>
+        <includesDependencies>true</includesDependencies>
         <language>java</language>
         <addedToClasspath>false</addedToClasspath>
       </configuration>
@@ -96,6 +98,7 @@
         <extension>spring</extension>
         <type>jboss-spring</type>
         <packaging>jboss-spring</packaging>
+        <includesDependencies>true</includesDependencies>
         <language>java</language>
         <addedToClasspath>true</addedToClasspath>
       </configuration>
@@ -139,6 +142,7 @@
         <extension>har</extension>
         <type>jboss-har</type>
         <packaging>jboss-har</packaging>
+        <includesDependencies>true</includesDependencies>
         <language>java</language>
         <addedToClasspath>true</addedToClasspath>
       </configuration>
@@ -182,6 +186,7 @@
         <extension>esb</extension>
         <type>jboss-esb</type>
         <packaging>jboss-esb</packaging>
+        <includesDependencies>true</includesDependencies>
         <language>java</language>
         <addedToClasspath>true</addedToClasspath>
       </configuration>
@@ -225,6 +230,7 @@
         <extension>aop</extension>
         <type>jboss-aop</type>
         <packaging>jboss-aop</packaging>
+        <includesDependencies>true</includesDependencies>
         <language>java</language>
         <addedToClasspath>true</addedToClasspath>
       </configuration>
