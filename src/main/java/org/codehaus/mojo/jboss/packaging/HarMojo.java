@@ -42,7 +42,7 @@ public class HarMojo
      * The name of the hibernate deployment descriptor file. If left blank, the goal will automatically search for
      * "jboss-service.xml", "hibernate-service.xml", and "*-hibernate.xml" in that order.
      * 
-     * @parameter expression="${deploymentDescriptorFile}"
+     * @parameter property="deploymentDescriptorFile"
      */
     private File deploymentDescriptorFile;
 
@@ -91,7 +91,7 @@ public class HarMojo
 
         // Look for "*-hibernate.xml" in META-INF
         String[] files = metaInf.list();
-        for ( int i = 0; i < files.length; ++i )
+        for ( int i = 0; files != null && i < files.length; ++i )
         {
             if ( files[i].endsWith( "-hibernate.xml" ) )
             {

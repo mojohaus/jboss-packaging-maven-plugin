@@ -56,7 +56,7 @@ public class ESBMojo
     /**
      * Override the deployment xml file
      * 
-     * @parameter expression="${maven.esb.deployment.xml}"
+     * @parameter property="maven.esb.deployment.xml"
      */
     private File deploymentXml;
 
@@ -65,7 +65,7 @@ public class ESBMojo
      * src/main/resources/META-INF then it will automatically be included. Otherwise this parameter must be set.
      * 
      * @parameter default-value="${project.build.outputDirectory}/META-INF/jboss-esb.xml"
-     *            expression="${deploymentDescriptorFile}"
+     *            property="deploymentDescriptorFile"
      */
     private File deploymentDescriptorFile;
 
@@ -74,8 +74,6 @@ public class ESBMojo
      * 
      * @param excludes The exclude list.
      * @throws MojoExecutionException For plugin failures.
-     * @throws MojoFailureException For unexpected plugin failures.
-     * @throws IOException For exceptions during IO operations.
      */
     protected void buildSpecificPackaging( final Set excludes )
         throws MojoExecutionException

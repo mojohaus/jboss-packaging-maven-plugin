@@ -37,7 +37,6 @@ public class ESBExplodedMojo
      * Execute the mojo in the current project.
      * 
      * @throws MojoExecutionException For plugin failures.
-     * @throws MojoFailureException For unexpected plugin failures.
      */
     public void execute()
         throws MojoExecutionException

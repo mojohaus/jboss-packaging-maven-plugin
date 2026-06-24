@@ -77,12 +77,12 @@ public class ParMojo
     /**
      * The character encoding of the resource files.
      * 
-     * @parameter expression="${encoding}" default-value="${project.build.sourceEncoding}"
+     * @parameter property="encoding" default-value="${project.build.sourceEncoding}"
      */
     private String encoding;
 
     /**
-     * @parameter expression="${session}"
+     * @parameter property="session"
      * @readonly
      * @required
      */
@@ -101,7 +101,7 @@ public class ParMojo
      * src/main/resources then it will automatically be included. Otherwise this parameter must be set.
      * 
      * @parameter default-value="${project.build.directory}/${project.build.finalName}/processdefinition.xml"
-     *            expression="${deploymentDescriptorFile}"
+     *            property="deploymentDescriptorFile"
      */
     private File deploymentDescriptorFile;
 
@@ -207,7 +207,7 @@ public class ParMojo
     }
 
     /**
-     * Overrides the default implementation to explode the depdencies into the classes directory.
+     * Overrides the default implementation to explode the dependencies into the classes directory.
      */
     protected void packageLib( Artifact artifact, String name )
         throws Exception

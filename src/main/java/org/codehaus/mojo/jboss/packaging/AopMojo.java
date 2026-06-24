@@ -43,7 +43,7 @@ public class AopMojo
      * then it will automatically be included. Otherwise this parameter must be set.
      * 
      * @parameter default-value="${project.build.outputDirectory}/META-INF/jboss-aop.xml"
-     *            expression="${deploymentDescriptorFile}"
+     *            property="deploymentDescriptorFile"
      */
     private File deploymentDescriptorFile;
 
